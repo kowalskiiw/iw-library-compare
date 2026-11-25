@@ -16,7 +16,7 @@
   "ticket": null,
   "confluence": {
     "id": "3247276099",
-    "url": "https://interwetten.atlassian.net/wiki/spaces/CXI/pages/3247276099/Library+comparison+CXI-2147-Priority-Fix-3"
+    "url": "https://interwetten.atlassian.net/wiki/spaces/CXI/pages/3247276099/CXI-2147-Priority-Fix-3"
   },
   "summary": {
     "components": {
@@ -585,5 +585,91 @@
         ]
       }
     ]
+  },
+  "status": "in-review",
+  "statusInfo": {
+    "checkedAt": "2026-11-25T13:56:16.510Z",
+    "librarySnapshotAt": "2026-11-25T13:56:00.879Z",
+    "done": 0,
+    "total": 15,
+    "pendingCount": 15,
+    "pending": [
+      {
+        "kind": "component",
+        "id": "10473:690",
+        "name": ".Avatar Base XS"
+      },
+      {
+        "kind": "component",
+        "id": "10424:12970",
+        "name": ".Header Base/Header Menu Bar - Single Item"
+      },
+      {
+        "kind": "component",
+        "id": "11412:15794",
+        "name": ".Toggle Base"
+      },
+      {
+        "kind": "component",
+        "id": "10172:12394",
+        "name": "Alerts Default (Inline)"
+      },
+      {
+        "kind": "component",
+        "id": "12733:4197",
+        "name": "Bet Results - Results Inside - Mobile (Default)"
+      },
+      {
+        "kind": "component",
+        "id": "12677:3624",
+        "name": "Bet Results - Results Outside - Desktop (Default)"
+      },
+      {
+        "kind": "component",
+        "id": "13694:30356",
+        "name": "Casino Navigation Bar/Desktop"
+      },
+      {
+        "kind": "component",
+        "id": "13694:30811",
+        "name": "Casino Navigation Bar/Mobile"
+      },
+      {
+        "kind": "component",
+        "id": "22817:626",
+        "name": "Input Birthday"
+      },
+      {
+        "kind": "component",
+        "id": "14628:56625",
+        "name": "Live Casino Game Filter"
+      },
+      {
+        "kind": "component",
+        "id": "11002:1480",
+        "name": "Tab Items/Tab Item - Default"
+      },
+      {
+        "kind": "component",
+        "id": "27207:3081",
+        "name": "Tab Items/Tab Item - Icon"
+      },
+      {
+        "kind": "component",
+        "id": "26749:16691",
+        "name": "Tab Items/Tab Item - Text + Icon"
+      },
+      {
+        "kind": "component",
+        "id": "25157:4539",
+        "name": "Tab Items/Tab Item - Text + Icon Big"
+      },
+      {
+        "kind": "component",
+        "id": "26938:6526",
+        "name": "Tab Items/Tab Item - Text + Notification"
+      }
+    ],
+    "mergedAt": null
   }
 }
