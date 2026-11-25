@@ -1,0 +1,59 @@
+name: Compare library branch
+
+on:
+  # A branch snapshot committed by the Figma plugin triggers the comparison.
+  push:
+    branches: [main]
+    paths:
+      - 'snapshots/branches/*.json'
+  # Re-run a comparison manually (e.g. after changing the Confluence settings).
+  workflow_dispatch:
+    inputs:
+      snapshot:
+        description: 'Branch snapshot to (re)compare, e.g. snapshots/branches/<branch-key>.json'
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: compare
+  cancel-in-progress: false
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Compare, publish to Confluence, write changelog entry
+        env:
+          ATLASSIAN_DOMAIN: ${{ secrets.ATLASSIAN_DOMAIN }}
+          ATLASSIAN_EMAIL: ${{ secrets.ATLASSIAN_EMAIL }}
+          ATLASSIAN_API_TOKEN: ${{ secrets.ATLASSIAN_API_TOKEN }}
+          CONFLUENCE_SPACE_ID: ${{ vars.CONFLUENCE_SPACE_ID }}
+          CONFLUENCE_PARENT_ID: ${{ vars.CONFLUENCE_PARENT_ID }}
+          SITE_URL: ${{ vars.SITE_URL }}
+          SNAPSHOT_INPUT: ${{ github.event.inputs.snapshot }}
+        run: node scripts/run-comparison.js
+
+      - name: Commit results
+        run: |
+          git config user.name "IW Library Compare Bot"
+          git config user.email "library-compare-bot@users.noreply.github.com"
+          git add site/data
+          if git diff --staged --quiet; then
+            echo "Nothing to commit"
+            exit 0
+          fi
+          git commit -m "chore: update comparison entries"
+          git pull --rebase origin "${{ github.ref_name }}"
+          git push origin "HEAD:${{ github.ref_name }}"
