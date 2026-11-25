@@ -1,0 +1,97 @@
+{
+  "id": "2RZLnNll3bqysVmOh2CfEV",
+  "version": "v2026.11.25.8",
+  "title": "CXI-2113-Color-Ramp",
+  "createdAt": "2026-11-25T14:46:15.399Z",
+  "updatedAt": "2026-11-25T14:46:15.399Z",
+  "branch": {
+    "url": "https://www.figma.com/design/e9id05pwA4x9x8DtJgwWXR/branch/2RZLnNll3bqysVmOh2CfEV/IW-Design-Library",
+    "key": "2RZLnNll3bqysVmOh2CfEV",
+    "fileName": "CXI-2113-Color-Ramp",
+    "snapshotAt": "2026-11-25T14:46:00.773Z"
+  },
+  "library": {
+    "fileName": "IW Design Library",
+    "snapshotAt": "2026-11-25T13:59:27.508Z"
+  },
+  "ticket": {
+    "key": "CXI-2113",
+    "url": "https://interwetten.atlassian.net/browse/CXI-2113",
+    "summary": "Create Proper Color Ramp",
+    "type": "UX Task"
+  },
+  "confluence": {
+    "id": "3249700878",
+    "url": "https://interwetten.atlassian.net/wiki/spaces/CXI/pages/3249700878/v2026.11.25.8+CXI-2113-Color-Ramp"
+  },
+  "summary": {
+    "components": {
+      "library": 802,
+      "branch": 802,
+      "added": 0,
+      "removed": 0,
+      "affected": 0,
+      "renamed": 0,
+      "propertyChanges": 0,
+      "visualChanges": 0,
+      "descriptionChanges": 0,
+      "moved": 0
+    },
+    "styles": {
+      "library": 245,
+      "branch": 245,
+      "added": 0,
+      "removed": 0,
+      "changed": 0,
+      "valueChanges": 0
+    },
+    "variables": {
+      "library": 104,
+      "branch": 104,
+      "added": 0,
+      "removed": 0,
+      "changed": 0,
+      "valueChanges": 0
+    },
+    "pages": {
+      "added": 0,
+      "removed": 0,
+      "renamed": 0
+    },
+    "namingOnly": true
+  },
+  "pages": {
+    "added": [],
+    "removed": [],
+    "renamed": []
+  },
+  "styles": {
+    "added": [],
+    "removed": [],
+    "changed": []
+  },
+  "variables": {
+    "added": [],
+    "removed": [],
+    "changed": []
+  },
+  "components": {
+    "added": [],
+    "removed": [],
+    "changed": []
+  },
+  "renames": {
+    "properties": [],
+    "values": []
+  },
+  "status": "merged",
+  "statusInfo": {
+    "checkedAt": "2026-11-25T14:46:15.410Z",
+    "librarySnapshotAt": "2026-11-25T13:59:27.508Z",
+    "done": 0,
+    "total": 0,
+    "pendingCount": 0,
+    "pending": [],
+    "mergedAt": null
+  }
+}
