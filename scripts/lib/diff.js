@@ -127,6 +127,11 @@ const hasPropertyChange = (d) =>
 const isChanged = (d) =>
   d.oldName || d.description || d.moved || hasPropertyChange(d) || d.variantsAdded || d.variantsRemoved || d.visual;
 
+// True if component `a` (library) still differs from `b` (branch) in anything we track.
+export function componentChanged(id, a, b) {
+  return Boolean(isChanged(diffComponent(id, a, b)));
+}
+
 function diffComponents(L, B) {
   const added = [], removed = [], changed = [];
   for (const [id, b] of Object.entries(B)) {

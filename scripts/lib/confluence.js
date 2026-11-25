@@ -2,8 +2,8 @@
 // Wording comes from site/assets/describe.js, shared with the detail page.
 
 import {
-  nodeLink, describeComponent, describeStyle, describeVariable,
-  groupByPage, headlineText, guidance, limitList, SCOPE_TEXT,
+  libLink, addedLink, removedLink, libraryUrl, describeComponent, describeStyle, describeVariable,
+  groupByPage, headlineText, guidance, limitList, SCOPE_TEXT, linkNote, statusLines, isMerged,
 } from '../../site/assets/describe.js';
 
 const esc = (s) =>
@@ -24,9 +24,15 @@ const macro = (name, inner = '', params = {}) =>
   (inner ? `<ac:rich-text-body>${inner}</ac:rich-text-body>` : '') +
   '</ac:structured-macro>';
 
+const statusMacro = (entry) =>
+  `<ac:structured-macro ac:name="status" ac:schema-version="1">` +
+  `<ac:parameter ac:name="colour">${isMerged(entry) ? 'Green' : 'Yellow'}</ac:parameter>` +
+  `<ac:parameter ac:name="title">${isMerged(entry) ? 'MERGED' : 'IN REVIEW'}</ac:parameter>` +
+  '</ac:structured-macro>';
+
 function componentLinks(entry, comps) {
   const { shown, more } = limitList(comps, 8);
-  const html = shown.map((c) => link(nodeLink(entry.branch.url, c.id), c.name)).join(', ');
+  const html = shown.map((c) => link(libLink(entry, c.id), c.name)).join(', ');
   return more ? `${html}, +${more} more (see “Changes per component”)` : html;
 }
 
@@ -36,13 +42,17 @@ export function buildStorage(entry, { siteUrl } = {}) {
 
   // Summary panel
   const meta = [];
+  if (entry.version) meta.push(`Changelog number <strong>${esc(entry.version)}</strong>`);
   meta.push(`Compared on ${esc((entry.updatedAt || '').slice(0, 10))}`);
   meta.push(`library snapshot ${esc((entry.library.snapshotAt || '').slice(0, 10))}`);
   meta.push(`branch snapshot ${esc((entry.branch.snapshotAt || '').slice(0, 10))}`);
+  meta.push(link(libraryUrl(url), 'Figma library'));
   meta.push(link(url, 'Figma branch'));
   if (entry.ticket) meta.push(entry.ticket.url ? link(entry.ticket.url, entry.ticket.key) : esc(entry.ticket.key));
   if (siteUrl) meta.push(link(`${siteUrl.replace(/\/$/, '')}/detail.html?id=${encodeURIComponent(entry.id)}`, 'Changelog entry'));
-  out.push(macro('info', headlineText(entry).map((t) => `<p>${esc(t)}</p>`).join('') + `<p>${meta.join(' · ')} · Component names on this page link to the Figma branch.</p>`));
+  const sl = statusLines(entry);
+  const statusHtml = `<p>${statusMacro(entry)} ${esc(sl[0])}</p>` + sl.slice(1).map((t) => `<p>${esc(t)}</p>`).join('');
+  out.push(macro('info', statusHtml + headlineText(entry).map((t) => `<p>${esc(t)}</p>`).join('') + `<p>${meta.join(' · ')}</p>`));
   out.push(macro('toc', '', { maxLevel: '2' }));
 
   // Guidance
@@ -103,20 +113,23 @@ export function buildStorage(entry, { siteUrl } = {}) {
   const comps = entry.components;
   if (comps.added.length) {
     out.push(h(2, 'Components added'));
-    out.push(table(['Component', 'Page'], comps.added.map((c) => [link(nodeLink(url, c.id), c.name), esc(c.page)])));
+    out.push(table(['Component', 'Page'], comps.added.map((c) => [link(addedLink(entry, c.id), c.name), esc(c.page)])));
   }
   if (comps.removed.length) {
     out.push(h(2, 'Components removed'));
-    out.push(table(['Component', 'Page'], comps.removed.map((c) => [esc(c.name), esc(c.page)])));
+    out.push(table(['Component', 'Page'], comps.removed.map((c) => {
+      const href = removedLink(entry, c.id);
+      return [href ? link(href, c.name) : esc(c.name), esc(c.page)];
+    })));
   }
   if (comps.changed.length) {
     out.push(h(2, 'Changes per component'));
-    out.push(`<p>Names are the new names from the branch. Click a name to open the component in Figma. “Was” shows the old name when the component was renamed.</p>`);
+    out.push(`<p>Names are the new names from the branch. ${esc(linkNote(entry))} “Was” shows the old name when the component was renamed.</p>`);
     for (const grp of groupByPage(comps.changed)) {
       out.push(h(3, `${grp.page} (${grp.items.length})`));
       out.push(table(['Component', 'Was', 'Changes'], grp.items.map((c) => {
         const d = describeComponent(c);
-        return [link(nodeLink(url, c.id), c.name), d.was ? code(d.was) : '—', lines(d.lines)];
+        return [link(libLink(entry, c.id), c.name), d.was ? code(d.was) : '—', lines(d.lines)];
       })));
     }
   }
@@ -206,21 +219,21 @@ async function diagnoseTarget(req, domain, spaceId, parentId) {
     return null;
   }
   if (parentId) {
-    try {
-      const p = await req('GET', `/pages/${parentId}`);
-      if (String(p.spaceId) !== String(spaceId)) {
-        return `CONFLUENCE_PARENT_ID ${parentId} belongs to space ${p.spaceId}, not to space ${spaceId}. ` +
-          'Use a parent page from the same space, or delete the variable to create pages at the top level of the space.';
-      }
-    } catch (e) {
-      if (e.status === 404) {
-        return `The parent page ${parentId} (CONFLUENCE_PARENT_ID) was not found, or is not visible to ATLASSIAN_EMAIL. ` +
-          'Check the id, or delete the variable to create pages at the top level of the space.';
-      }
-      return null;
+    // The parent can be a page or a folder; folders live under their own endpoint.
+    let parent = null;
+    for (const kind of ['pages', 'folders']) {
+      try { parent = await req('GET', `/${kind}/${parentId}`); break; } catch (e) { if (e.status !== 404) return null; }
+    }
+    if (!parent) {
+      return `The parent ${parentId} (CONFLUENCE_PARENT_ID) was not found as a page or folder, or is not visible to ATLASSIAN_EMAIL. ` +
+        'Check the id, or delete the variable to create pages at the top level of the space.';
+    }
+    if (String(parent.spaceId) !== String(spaceId)) {
+      return `CONFLUENCE_PARENT_ID ${parentId} belongs to space ${parent.spaceId}, not to space ${spaceId}. ` +
+        'Use a parent from the same space, or delete the variable to create pages at the top level of the space.';
     }
   }
-  return `Space ${spaceId} ${parentId ? `and parent page ${parentId} exist` : 'exists'}, so the account of ATLASSIAN_EMAIL is probably not allowed to create pages there ` +
+  return `Space ${spaceId} ${parentId ? `and parent ${parentId} exist` : 'exists'}, so the account of ATLASSIAN_EMAIL is probably not allowed to create pages there ` +
     '(for example in someone else’s personal space, or without edit permission in the space).';
 }
 

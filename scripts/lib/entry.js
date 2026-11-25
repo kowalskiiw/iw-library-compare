@@ -3,6 +3,13 @@
 
 const SEP = '\u0000';
 
+// Same scheme as the existing changelog: Vienna date + the workflow run number,
+// e.g. v2026.11.25.14. Assigned once; re-comparing a branch keeps its number.
+export function makeVersion(now = new Date(), run = process.env.GITHUB_RUN_NUMBER || '0') {
+  const date = now.toLocaleDateString('en-CA', { timeZone: 'Europe/Vienna' });
+  return `v${date.replace(/-/g, '.')}.${run}`;
+}
+
 export function aggregateRenames(changed) {
   const props = new Map();
   const vals = new Map();
@@ -29,6 +36,7 @@ export function buildEntry({ diff, library, branch, existing, ticket }) {
   const now = new Date().toISOString();
   return {
     id,
+    version: (existing && existing.version) || makeVersion(),
     title: (m.title && m.title.trim()) || m.fileName || id,
     createdAt: (existing && existing.createdAt) || now,
     updatedAt: now,
@@ -49,6 +57,8 @@ export function indexItem(e) {
   const s = e.summary;
   return {
     id: e.id,
+    version: e.version,
+    status: e.status || 'in-review',
     title: e.title,
     createdAt: e.createdAt,
     updatedAt: e.updatedAt,
