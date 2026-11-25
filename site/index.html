@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IW Design Library — Library comparisons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="./">IW Design Library <span>/ Library comparisons</span></a>
+  <div class="header-right"><span id="count"></span></div>
+</header>
+
+<main class="container">
+  <h1>Library comparisons</h1>
+  <p class="sub">What changed between the IW Design Library and a Figma branch — one entry per branch, each with a detail page that mirrors its Confluence page.</p>
+  <input id="search" class="search" type="search" placeholder="Search title, ticket or branch…" aria-label="Search comparisons">
+  <div id="list"></div>
+  <p id="empty" class="empty" hidden>No comparisons yet.</p>
+</main>
+
+<script type="module">
+  const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const list = document.getElementById('list');
+  const empty = document.getElementById('empty');
+  let entries = [];
+
+  const chip = (text, cls = '') => `<span class="chip ${cls}">${esc(text)}</span>`;
+
+  function card(e) {
+    const s = e.summary;
+    const chips = [
+      s.namingOnly ? chip('Naming only', 'ok') : chip('Contains non-naming changes', 'warn'),
+      s.affected ? chip(`${s.affected} components`) : '',
+      s.renamed ? chip(`${s.renamed} renamed`) : '',
+      s.propertyChanges ? chip(`${s.propertyChanges} property / value changes`) : '',
+      s.visualChanges ? chip(`${s.visualChanges} appearance`, 'warn') : '',
+      s.styles ? chip(`${s.styles} styles`) : '',
+      s.variables ? chip(`${s.variables} variables`) : '',
+    ].join('');
+    const meta = [
+      esc((e.updatedAt || '').slice(0, 10)),
+      e.ticket ? `<a href="${esc(e.ticket.url || '#')}" target="_blank" rel="noopener">${esc(e.ticket.key)}</a>` : '',
+      e.branchUrl ? `<a href="${esc(e.branchUrl)}" target="_blank" rel="noopener">Figma branch</a>` : '',
+      e.confluenceUrl ? `<a href="${esc(e.confluenceUrl)}" target="_blank" rel="noopener">Confluence</a>` : '',
+    ].filter(Boolean).join('<span>·</span>');
+    return `<div class="entry-card">
+      <div class="entry-title"><a class="stretched" href="detail.html?id=${encodeURIComponent(e.id)}">${esc(e.title)}</a></div>
+      <div class="meta">${meta}</div>
+      <div class="chips">${chips}</div>
+    </div>`;
+  }
+
+  function render() {
+    const q = document.getElementById('search').value.trim().toLowerCase();
+    const shown = entries.filter((e) =>
+      !q || [e.title, e.ticket && e.ticket.key, e.ticket && e.ticket.summary, e.id].filter(Boolean).join(' ').toLowerCase().includes(q));
+    list.innerHTML = shown.map(card).join('');
+    empty.hidden = shown.length > 0;
+    empty.textContent = entries.length ? 'No comparison matches your search.' : 'No comparisons yet.';
+    document.getElementById('count').textContent = `${entries.length} comparison${entries.length === 1 ? '' : 's'}`;
+  }
+
+  try {
+    const res = await fetch('data/entries.json', { cache: 'no-cache' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    entries = await res.json();
+  } catch (err) {
+    console.warn('Could not load data/entries.json:', err.message);
+  }
+  document.getElementById('search').addEventListener('input', render);
+  render();
+</script>
+</body>
+</html>
