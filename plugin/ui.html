@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; font-size: 12px; color: #111; margin: 0; padding: 16px; }
+  h2 { font-size: 13px; font-weight: 600; margin: 0 0 4px; }
+  .file { color: #888; font-size: 11px; margin-bottom: 12px; }
+  .tabs { display: flex; gap: 4px; margin-bottom: 14px; border-bottom: 1px solid #eee; }
+  .tab { padding: 6px 10px; cursor: pointer; font-size: 12px; color: #888; border-bottom: 2px solid transparent; background: none; border-top: 0; border-left: 0; border-right: 0; }
+  .tab.active { color: #111; border-bottom-color: #111; font-weight: 500; }
+  label { display: block; font-size: 11px; font-weight: 500; color: #555; margin: 12px 0 4px; }
+  input[type=text], input[type=password] { width: 100%; padding: 6px 8px; border: 1px solid #ddd; border-radius: 6px; font: inherit; }
+  .hint { font-size: 10.5px; color: #999; margin-top: 3px; line-height: 1.4; }
+  button.primary { width: 100%; margin-top: 16px; padding: 9px; border: 0; border-radius: 6px; background: #111; color: #fff; font: inherit; font-weight: 500; cursor: pointer; }
+  button.primary:hover { background: #333; }
+  button.primary:disabled { background: #bbb; cursor: default; }
+  button.secondary { width: 100%; margin-top: 8px; padding: 7px; border: 0; border-radius: 6px; background: #f0f0f0; font: inherit; cursor: pointer; }
+  .status { margin-top: 12px; padding: 8px; border-radius: 6px; background: #f5f5f5; font-size: 11px; line-height: 1.5; min-height: 16px; white-space: pre-wrap; }
+  .status.ok { background: #e8f7ee; color: #12441d; }
+  .status.err { background: #fbecec; color: #581919; }
+  details { margin-top: 18px; padding-top: 10px; border-top: 1px solid #eee; }
+  summary { cursor: pointer; font-size: 11px; color: #666; font-weight: 500; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  a { color: #4a52d8; }
+</style>
+</head>
+<body>
+
+<h2>IW Library Compare</h2>
+<div class="file">Open file: <span id="fileName">…</span></div>
+
+<div class="tabs">
+  <button class="tab active" data-tab="compare">Compare branch</button>
+  <button class="tab" data-tab="library">Library snapshot</button>
+</div>
+
+<div class="panel active" id="panel-compare">
+  <div class="hint">Open the <b>branch</b> file, then fill in the fields and click the button. The library is compared with the latest library snapshot.</div>
+
+  <label for="branchUrl">Branch link</label>
+  <input type="text" id="branchUrl" placeholder="https://www.figma.com/design/…/branch/…/IW-Design-Library">
+  <div class="hint">Copy the link of this branch from Figma. It is used for the component links in the report.</div>
+
+  <label for="ticket">Jira ticket (optional)</label>
+  <input type="text" id="ticket" placeholder="CXI-2132">
+
+  <label for="title">Title (optional)</label>
+  <input type="text" id="title" placeholder="defaults to the file name">
+
+  <button class="primary" id="compareBtn">Compare &amp; publish</button>
+</div>
+
+<div class="panel" id="panel-library">
+  <div class="hint">Open the <b>library (main)</b> file and save a snapshot. Do this before comparing a branch, and again whenever the library has changed.</div>
+  <button class="primary" id="libraryBtn">Save library snapshot</button>
+</div>
+
+<div class="status" id="status"></div>
+
+<details>
+  <summary>Settings</summary>
+  <label for="owner">GitHub owner</label>
+  <input type="text" id="owner">
+  <label for="repo">Repository</label>
+  <input type="text" id="repo">
+  <label for="branch">Branch</label>
+  <input type="text" id="branch">
+  <label for="githubToken">GitHub token</label>
+  <input type="password" id="githubToken" placeholder="github_pat_…">
+  <div class="hint">Fine-grained token for this one repository with <b>Contents: Read and write</b>. Stored locally via figma.clientStorage.</div>
+  <button class="secondary" id="saveBtn">Save settings</button>
+</details>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  let settings = {};
+
+  function say(text, ok) {
+    const el = $('status');
+    el.textContent = text || '';
+    el.className = 'status' + (ok === true ? ' ok' : ok === false ? ' err' : '');
+  }
+  function busy(b) { $('compareBtn').disabled = b; $('libraryBtn').disabled = b; }
+
+  document.querySelectorAll('.tab').forEach((t) => {
+    t.onclick = () => {
+      document.querySelectorAll('.tab').forEach((x) => x.classList.toggle('active', x === t));
+      document.querySelectorAll('.panel').forEach((p) => p.classList.toggle('active', p.id === 'panel-' + t.dataset.tab));
+      say('');
+    };
+  });
+
+  // ── Figma URL → keys ──
+  function parseFigmaUrl(raw) {
+    let u;
+    try { u = new URL(String(raw).trim()); } catch (e) { return null; }
+    if (!/(^|\.)figma\.com$/.test(u.hostname)) return null;
+    const parts = u.pathname.split('/').filter(Boolean);
+    const i = parts.findIndex((p) => p === 'design' || p === 'file');
+    if (i === -1 || !parts[i + 1]) return null;
+    const b = parts.indexOf('branch');
+    const branchKey = b !== -1 && parts[b + 1] ? parts[b + 1] : null;
+    u.search = ''; u.hash = '';
+    return { branchKey, fileKey: parts[i + 1], url: u.toString() };
+  }
+
+  // ── GitHub (runs here, in the UI iframe: normal browser fetch/btoa) ──
+  const b64 = (str) => btoa(unescape(encodeURIComponent(str)));
+  async function gh(path, options) {
+    const res = await fetch('https://api.github.com' + path, Object.assign({}, options, {
+      headers: Object.assign({
+        Authorization: 'Bearer ' + settings.githubToken,
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+      }, options && options.body ? { 'Content-Type': 'application/json' } : {}),
+    }));
+    return res;
+  }
+  async function commitJson(path, obj, message) {
+    const base = `/repos/${settings.owner}/${settings.repo}/contents/${path}`;
+    let sha;
+    const get = await gh(`${base}?ref=${encodeURIComponent(settings.branch || 'main')}`);
+    if (get.ok) sha = (await get.json()).sha;
+    else if (get.status !== 404) throw new Error(`GitHub: could not check ${path} (${get.status}) ${await get.text()}`);
+    const body = { message, content: b64(JSON.stringify(obj)), branch: settings.branch || 'main' };
+    if (sha) body.sha = sha;
+    const put = await gh(base, { method: 'PUT', body: JSON.stringify(body) });
+    if (!put.ok) throw new Error(`GitHub: commit of ${path} failed (${put.status}) ${await put.text()}`);
+  }
+
+  function checkSettings() {
+    if (!settings.owner || !settings.repo || !settings.githubToken) {
+      say('Open “Settings” and fill in owner, repository and token first.', false);
+      return false;
+    }
+    return true;
+  }
+
+  // ── actions ──
+  $('libraryBtn').onclick = () => {
+    if (!checkSettings()) return;
+    busy(true);
+    say('Starting…');
+    parent.postMessage({ pluginMessage: { type: 'build-snapshot', kind: 'library', meta: {} } }, '*');
+  };
+
+  $('compareBtn').onclick = () => {
+    if (!checkSettings()) return;
+    const parsed = parseFigmaUrl($('branchUrl').value);
+    if (!parsed) { say('Please paste the Figma link of the branch.', false); return; }
+    if (!parsed.branchKey) { say('This link has no “/branch/…” part. Open the branch in Figma and copy its link from there.', false); return; }
+    const ticket = $('ticket').value.trim().toUpperCase();
+    if (ticket && !/^[A-Z][A-Z0-9]+-\d+$/.test(ticket)) { say('The Jira ticket should look like CXI-2132.', false); return; }
+    busy(true);
+    say('Starting…');
+    parent.postMessage({ pluginMessage: { type: 'build-snapshot', kind: 'branch', meta: {
+      branchUrl: parsed.url, branchKey: parsed.branchKey, ticket, title: $('title').value.trim(),
+    } } }, '*');
+  };
+
+  $('saveBtn').onclick = () => {
+    settings = {
+      owner: $('owner').value.trim(), repo: $('repo').value.trim(),
+      branch: $('branch').value.trim() || 'main', githubToken: $('githubToken').value.trim(),
+    };
+    parent.postMessage({ pluginMessage: { type: 'save-settings', settings } }, '*');
+  };
+
+  async function onSnapshot(m) {
+    try {
+      const isLib = m.kind === 'library';
+      const path = isLib ? 'snapshots/library.json' : `snapshots/branches/${m.snapshot.meta.branchKey}.json`;
+      say(`Committing ${path}…`);
+      await commitJson(path, m.snapshot, isLib ? 'chore: update library snapshot' : `chore: branch snapshot ${m.snapshot.meta.fileName}`);
+      if (isLib) {
+        say('✅ Library snapshot saved. Now open the branch file and use “Compare branch”.', true);
+      } else {
+        const actions = `https://github.com/${settings.owner}/${settings.repo}/actions`;
+        say('✅ Snapshot committed. The GitHub Action now creates the Confluence page and the changelog entry (about 1–2 minutes).\n' + actions, true);
+      }
+    } catch (e) {
+      say('❌ ' + e.message, false);
+    } finally {
+      busy(false);
+    }
+  }
+
+  window.onmessage = (event) => {
+    const m = event.data.pluginMessage;
+    if (!m) return;
+    if (m.type === 'settings') {
+      settings = m.settings;
+      $('owner').value = settings.owner || ''; $('repo').value = settings.repo || '';
+      $('branch').value = settings.branch || 'main'; $('githubToken').value = settings.githubToken || '';
+      $('fileName').textContent = m.fileName;
+    } else if (m.type === 'status') {
+      say(m.text, m.ok);
+    } else if (m.type === 'snapshot') {
+      onSnapshot(m);
+    } else if (m.type === 'error') {
+      say('❌ ' + m.text, false);
+      busy(false);
+    }
+  };
+
+  parent.postMessage({ pluginMessage: { type: 'get-settings' } }, '*');
+</script>
+</body>
+</html>
