@@ -1,22 +1,23 @@
 {
   "id": "h80DHGhFy5DuVKO6VUtViL",
+  "version": "v2026.11.25.6",
   "title": "CXI-2147-Priority-Fix-3",
   "createdAt": "2026-11-25T12:55:36.871Z",
-  "updatedAt": "2026-11-25T12:55:36.871Z",
+  "updatedAt": "2026-11-25T13:56:50.072Z",
   "branch": {
     "url": "https://www.figma.com/design/e9id05pwA4x9x8DtJgwWXR/branch/h80DHGhFy5DuVKO6VUtViL/IW-Design-Library",
     "key": "h80DHGhFy5DuVKO6VUtViL",
     "fileName": "CXI-2147-Priority-Fix-3",
-    "snapshotAt": "2026-11-25T12:55:21.817Z"
+    "snapshotAt": "2026-11-25T13:56:34.781Z"
   },
   "library": {
     "fileName": "IW Design Library",
-    "snapshotAt": "2026-11-25T12:15:56.089Z"
+    "snapshotAt": "2026-11-25T13:56:00.879Z"
   },
   "ticket": null,
   "confluence": {
     "id": "3247276099",
-    "url": "https://interwetten.atlassian.net/wiki/spaces/CXI/pages/3247276099/CXI-2147-Priority-Fix-3"
+    "url": "https://interwetten.atlassian.net/wiki/spaces/CXI/pages/3247276099/v2026.11.25.6+CXI-2147-Priority-Fix-3"
   },
   "summary": {
     "components": {
@@ -588,7 +589,7 @@
   },
   "status": "in-review",
   "statusInfo": {
-    "checkedAt": "2026-11-25T13:56:16.510Z",
+    "checkedAt": "2026-11-25T13:56:50.080Z",
     "librarySnapshotAt": "2026-11-25T13:56:00.879Z",
     "done": 0,
     "total": 15,
