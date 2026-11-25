@@ -54,6 +54,8 @@ h1 { font-size: 34px; font-weight: 600; letter-spacing: -.03em; line-height: 1.1
 .entry-card:hover { border-color: var(--border-strong); background: var(--bg-hover); }
 .entry-title { font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
 .entry-title a { text-decoration: none; }
+.entry-title .rest, h1 .rest { font-weight: 500; color: var(--text-2); }
+h1 .ver, .entry-title .ver { font-variant-numeric: tabular-nums; }
 /* whole card is clickable via the title link; inner links sit above it (no nested <a>) */
 .entry-title a.stretched::after { content: ''; position: absolute; inset: 0; border-radius: 10px; }
 .meta a { position: relative; z-index: 1; }
@@ -72,6 +74,7 @@ h1 { font-size: 34px; font-weight: 600; letter-spacing: -.03em; line-height: 1.1
   background: #F1F4FF; border: 1px solid rgba(113,122,255,.25);
 }
 .panel p + p { margin-top: 8px; }
+.panel .chip { margin-right: 8px; font-weight: 600; }
 .panel .meta { margin-top: 12px; font-size: 12.5px; }
 h2 { margin-top: 48px; font-size: 22px; font-weight: 600; letter-spacing: -.02em; }
 h3 { margin-top: 28px; font-size: 14px; font-weight: 600; }

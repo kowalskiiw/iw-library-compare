@@ -19,6 +19,68 @@ export function nodeLink(branchUrl, nodeId) {
   }
 }
 
+// The library URL is the branch URL without its "/branch/<branch key>" part.
+// Node IDs are identical in library and branch, so the same node-id works in both.
+export function libraryUrl(branchUrl) {
+  try {
+    const u = new URL(branchUrl);
+    const parts = u.pathname.split('/').filter(Boolean);
+    const b = parts.indexOf('branch');
+    if (b === -1) return branchUrl;
+    parts.splice(b, 2);
+    u.pathname = '/' + parts.join('/');
+    u.search = '';
+    u.hash = '';
+    return u.toString();
+  } catch {
+    return branchUrl;
+  }
+}
+
+// Component links go to the library, because that is where developers and testers
+// look (and the branch is deleted after the merge). Components that were added
+// exist only in the branch until the merge, so those link there.
+export const libLink = (entry, nodeId) => nodeLink(libraryUrl(entry.branch.url), nodeId);
+export const branchLink = (entry, nodeId) => nodeLink(entry.branch.url, nodeId);
+
+// Same headline on the changelog site and on the Confluence page.
+export const entryHeadline = (e) => (e.version ? `${e.version} – ${e.title}` : e.title);
+
+// ── merge status ─────────────────────────────────────────────────────────────
+// 'in-review': the branch is not (completely) in the library yet.
+// 'merged'   : everything the entry touched is in the library now.
+
+export const isMerged = (e) => e.status === 'merged';
+export const statusLabel = (e) => (isMerged(e) ? 'Merged' : 'In review');
+
+// Added components exist only in the branch until the merge; afterwards they are in the library.
+export const addedLink = (e, nodeId) => (isMerged(e) ? libLink(e, nodeId) : branchLink(e, nodeId));
+// Removed components exist in the library until the merge; afterwards there is nothing to open.
+export const removedLink = (e, nodeId) => (isMerged(e) ? null : libLink(e, nodeId));
+
+const day = (s) => String(s || '').slice(0, 10);
+
+export function statusLines(e) {
+  const si = e.statusInfo || {};
+  if (isMerged(e)) {
+    return [si.mergedAt
+      ? `All changes are now in the library (merged ${day(si.mergedAt)}).`
+      : 'The library already matches the branch.'];
+  }
+  const out = [`The branch has not been merged into the library yet, so the library still shows the old state (checked ${day(si.checkedAt || e.updatedAt)}).`];
+  if (si.done) {
+    const names = (si.pending || []).slice(0, 8).map((p) => p.name).join(', ');
+    const more = (si.pendingCount || 0) > 8 ? `, +${si.pendingCount - 8} more` : '';
+    out.push(`${si.done} of ${si.total} changes are already in the library. Still missing: ${names}${more}.`);
+  }
+  return out;
+}
+
+export const linkNote = (e) =>
+  isMerged(e)
+    ? 'Links open the Figma library, which now contains all changes. Removed components no longer exist there, so they are not linked.'
+    : 'Links open the Figma library. Until the branch is merged, the library still shows the old names. Added components exist only in the branch, so they link there.';
+
 function join(items, sep = ', ') {
   const out = [];
   items.forEach((it, i) => {
