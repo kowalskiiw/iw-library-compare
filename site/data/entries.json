@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "id": "h80DHGhFy5DuVKO6VUtViL",
+    "title": "CXI-2147-Priority-Fix-3",
+    "createdAt": "2026-11-25T12:55:36.871Z",
+    "updatedAt": "2026-11-25T12:55:36.871Z",
+    "ticket": null,
+    "branchUrl": "https://www.figma.com/design/e9id05pwA4x9x8DtJgwWXR/branch/h80DHGhFy5DuVKO6VUtViL/IW-Design-Library",
+    "confluenceUrl": "https://interwetten.atlassian.net/wiki/spaces/CXI/pages/3247276099/Library+comparison+CXI-2147-Priority-Fix-3",
+    "summary": {
+      "namingOnly": true,
+      "affected": 15,
+      "renamed": 2,
+      "propertyChanges": 13,
+      "visualChanges": 0,
+      "styles": 0,
+      "variables": 0
+    }
+  }
+]

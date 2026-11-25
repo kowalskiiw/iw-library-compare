@@ -1,0 +1,589 @@
+{
+  "id": "h80DHGhFy5DuVKO6VUtViL",
+  "title": "CXI-2147-Priority-Fix-3",
+  "createdAt": "2026-11-25T12:55:36.871Z",
+  "updatedAt": "2026-11-25T12:55:36.871Z",
+  "branch": {
+    "url": "https://www.figma.com/design/e9id05pwA4x9x8DtJgwWXR/branch/h80DHGhFy5DuVKO6VUtViL/IW-Design-Library",
+    "key": "h80DHGhFy5DuVKO6VUtViL",
+    "fileName": "CXI-2147-Priority-Fix-3",
+    "snapshotAt": "2026-11-25T12:55:21.817Z"
+  },
+  "library": {
+    "fileName": "IW Design Library",
+    "snapshotAt": "2026-11-25T12:15:56.089Z"
+  },
+  "ticket": null,
+  "confluence": {
+    "id": "3247276099",
+    "url": "https://interwetten.atlassian.net/wiki/spaces/CXI/pages/3247276099/Library+comparison+CXI-2147-Priority-Fix-3"
+  },
+  "summary": {
+    "components": {
+      "library": 802,
+      "branch": 802,
+      "added": 0,
+      "removed": 0,
+      "affected": 15,
+      "renamed": 2,
+      "propertyChanges": 13,
+      "visualChanges": 0,
+      "descriptionChanges": 0,
+      "moved": 0
+    },
+    "styles": {
+      "library": 245,
+      "branch": 245,
+      "added": 0,
+      "removed": 0,
+      "changed": 0,
+      "valueChanges": 0
+    },
+    "variables": {
+      "library": 104,
+      "branch": 104,
+      "added": 0,
+      "removed": 0,
+      "changed": 0,
+      "valueChanges": 0
+    },
+    "pages": {
+      "added": 0,
+      "removed": 0,
+      "renamed": 0
+    },
+    "namingOnly": true
+  },
+  "pages": {
+    "added": [],
+    "removed": [],
+    "renamed": []
+  },
+  "styles": {
+    "added": [],
+    "removed": [],
+    "changed": []
+  },
+  "variables": {
+    "added": [],
+    "removed": [],
+    "changed": []
+  },
+  "components": {
+    "added": [],
+    "removed": [],
+    "changed": [
+      {
+        "id": "10473:690",
+        "page": "Avatars",
+        "name": ".Avatar Base XS",
+        "oldName": ".Avatar BaseXS",
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": null
+      },
+      {
+        "id": "10424:12970",
+        "page": "Header - v",
+        "name": ".Header Base/Header Menu Bar - Single Item",
+        "oldName": ".Base Components/Header Menu Bar - Single Item",
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": null
+      },
+      {
+        "id": "11412:15794",
+        "page": "Toggle",
+        "name": ".Toggle Base",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [
+          {
+            "property": "Size",
+            "from": "Small",
+            "to": "S"
+          }
+        ],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": null
+      },
+      {
+        "id": "10172:12394",
+        "page": "Alerts",
+        "name": "Alerts Default (Inline)",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [
+          {
+            "property": "Size",
+            "from": "Medium",
+            "to": "M"
+          },
+          {
+            "property": "Size",
+            "from": "Small",
+            "to": "S"
+          }
+        ],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": null
+      },
+      {
+        "id": "12733:4197",
+        "page": "Bet Results",
+        "name": "Bet Results - Results Inside - Mobile (Default)",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [
+          {
+            "property": "Size",
+            "from": "Small",
+            "to": "S"
+          }
+        ],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": null
+      },
+      {
+        "id": "12677:3624",
+        "page": "Bet Results",
+        "name": "Bet Results - Results Outside - Desktop (Default)",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [
+          {
+            "property": "Size",
+            "from": "Small",
+            "to": "S"
+          }
+        ],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": null
+      },
+      {
+        "id": "13694:30356",
+        "page": "Gaming Navigation",
+        "name": "Casino Navigation Bar/Desktop",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [
+          {
+            "from": "User logged in?",
+            "to": "User logged in"
+          }
+        ],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": null
+      },
+      {
+        "id": "13694:30811",
+        "page": "Gaming Navigation",
+        "name": "Casino Navigation Bar/Mobile",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [
+          {
+            "from": "User logged in?",
+            "to": "User logged in"
+          }
+        ],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": null
+      },
+      {
+        "id": "22817:626",
+        "page": "Inputs",
+        "name": "Input Birthday",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [
+          {
+            "property": "State",
+            "from": "Mouseover",
+            "to": "Hover"
+          }
+        ],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": null
+      },
+      {
+        "id": "14628:56625",
+        "page": "Accordions",
+        "name": "Live Casino Game Filter",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [
+          {
+            "property": "Status",
+            "from": "Focused",
+            "to": "Focus"
+          }
+        ],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": null
+      },
+      {
+        "id": "11002:1480",
+        "page": "Tabs",
+        "name": "Tab Items/Tab Item - Default",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [
+          {
+            "property": "State",
+            "from": "Disabled Tab Focus",
+            "to": "Disabled Focus"
+          },
+          {
+            "property": "State",
+            "from": "Selected Tab Focus",
+            "to": "Selected Focus"
+          }
+        ],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": null
+      },
+      {
+        "id": "27207:3081",
+        "page": "Tabs",
+        "name": "Tab Items/Tab Item - Icon",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [
+          {
+            "property": "State",
+            "from": "Disabled Tab Focus",
+            "to": "Disabled Focus"
+          },
+          {
+            "property": "State",
+            "from": "Selected Tab Focus",
+            "to": "Selected Focus"
+          }
+        ],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": null
+      },
+      {
+        "id": "26749:16691",
+        "page": "Tabs",
+        "name": "Tab Items/Tab Item - Text + Icon",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [
+          {
+            "property": "State",
+            "from": "Tab Focus",
+            "to": "Focus"
+          },
+          {
+            "property": "State",
+            "from": "Selected Tab Focus",
+            "to": "Selected Focus"
+          }
+        ],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": null
+      },
+      {
+        "id": "25157:4539",
+        "page": "Tabs",
+        "name": "Tab Items/Tab Item - Text + Icon Big",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [
+          {
+            "property": "State",
+            "from": "Tab Focus",
+            "to": "Focus"
+          },
+          {
+            "property": "State",
+            "from": "Selected + Tab Focus",
+            "to": "Selected + Focus"
+          }
+        ],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": null
+      },
+      {
+        "id": "26938:6526",
+        "page": "Tabs",
+        "name": "Tab Items/Tab Item - Text + Notification",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [
+          {
+            "property": "State",
+            "from": "Tab Focus",
+            "to": "Focus"
+          }
+        ],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": null
+      }
+    ]
+  },
+  "renames": {
+    "properties": [
+      {
+        "from": "User logged in?",
+        "to": "User logged in",
+        "components": [
+          {
+            "id": "13694:30356",
+            "name": "Casino Navigation Bar/Desktop"
+          },
+          {
+            "id": "13694:30811",
+            "name": "Casino Navigation Bar/Mobile"
+          }
+        ]
+      }
+    ],
+    "values": [
+      {
+        "property": "Size",
+        "from": "Small",
+        "to": "S",
+        "components": [
+          {
+            "id": "11412:15794",
+            "name": ".Toggle Base"
+          },
+          {
+            "id": "10172:12394",
+            "name": "Alerts Default (Inline)"
+          },
+          {
+            "id": "12733:4197",
+            "name": "Bet Results - Results Inside - Mobile (Default)"
+          },
+          {
+            "id": "12677:3624",
+            "name": "Bet Results - Results Outside - Desktop (Default)"
+          }
+        ]
+      },
+      {
+        "property": "State",
+        "from": "Selected Tab Focus",
+        "to": "Selected Focus",
+        "components": [
+          {
+            "id": "11002:1480",
+            "name": "Tab Items/Tab Item - Default"
+          },
+          {
+            "id": "27207:3081",
+            "name": "Tab Items/Tab Item - Icon"
+          },
+          {
+            "id": "26749:16691",
+            "name": "Tab Items/Tab Item - Text + Icon"
+          }
+        ]
+      },
+      {
+        "property": "State",
+        "from": "Tab Focus",
+        "to": "Focus",
+        "components": [
+          {
+            "id": "26749:16691",
+            "name": "Tab Items/Tab Item - Text + Icon"
+          },
+          {
+            "id": "25157:4539",
+            "name": "Tab Items/Tab Item - Text + Icon Big"
+          },
+          {
+            "id": "26938:6526",
+            "name": "Tab Items/Tab Item - Text + Notification"
+          }
+        ]
+      },
+      {
+        "property": "State",
+        "from": "Disabled Tab Focus",
+        "to": "Disabled Focus",
+        "components": [
+          {
+            "id": "11002:1480",
+            "name": "Tab Items/Tab Item - Default"
+          },
+          {
+            "id": "27207:3081",
+            "name": "Tab Items/Tab Item - Icon"
+          }
+        ]
+      },
+      {
+        "property": "Status",
+        "from": "Focused",
+        "to": "Focus",
+        "components": [
+          {
+            "id": "14628:56625",
+            "name": "Live Casino Game Filter"
+          }
+        ]
+      },
+      {
+        "property": "Size",
+        "from": "Medium",
+        "to": "M",
+        "components": [
+          {
+            "id": "10172:12394",
+            "name": "Alerts Default (Inline)"
+          }
+        ]
+      },
+      {
+        "property": "State",
+        "from": "Mouseover",
+        "to": "Hover",
+        "components": [
+          {
+            "id": "22817:626",
+            "name": "Input Birthday"
+          }
+        ]
+      },
+      {
+        "property": "State",
+        "from": "Selected + Tab Focus",
+        "to": "Selected + Focus",
+        "components": [
+          {
+            "id": "25157:4539",
+            "name": "Tab Items/Tab Item - Text + Icon Big"
+          }
+        ]
+      }
+    ]
+  }
+}
