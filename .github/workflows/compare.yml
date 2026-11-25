@@ -1,17 +1,23 @@
 name: Compare library branch
 
 on:
-  # A branch snapshot committed by the Figma plugin triggers the comparison.
   push:
     branches: [main]
     paths:
+      # A branch snapshot saved by the Figma plugin → create/update comparison + Confluence page.
       - 'snapshots/branches/*.json'
-  # Re-run a comparison manually (e.g. after changing the Confluence settings).
+      # A new library snapshot (normally saved after a merge) → re-check which entries are merged now.
+      - 'snapshots/library.json'
+  # Manual runs
   workflow_dispatch:
     inputs:
       snapshot:
-        description: 'Branch snapshot to (re)compare, e.g. snapshots/branches/<branch-key>.json'
-        required: true
+        description: 'Optional: branch snapshot to (re)compare, e.g. snapshots/branches/<branch-key>.json'
+        required: false
+      recheck:
+        description: 'Re-check the merge status of all open entries'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -34,7 +40,7 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Compare, publish to Confluence, write changelog entry
+      - name: Compare, check merge status, publish to Confluence, write changelog entries
         env:
           ATLASSIAN_DOMAIN: ${{ secrets.ATLASSIAN_DOMAIN }}
           ATLASSIAN_EMAIL: ${{ secrets.ATLASSIAN_EMAIL }}
@@ -43,9 +49,12 @@ jobs:
           CONFLUENCE_PARENT_ID: ${{ vars.CONFLUENCE_PARENT_ID }}
           SITE_URL: ${{ vars.SITE_URL }}
           SNAPSHOT_INPUT: ${{ github.event.inputs.snapshot }}
+          RECHECK: ${{ github.event.inputs.recheck }}
         run: node scripts/run-comparison.js
 
+      # Also runs when the step above failed (e.g. Confluence), so the entry data is not lost.
       - name: Commit results
+        if: ${{ !cancelled() }}
         run: |
           git config user.name "IW Library Compare Bot"
           git config user.email "library-compare-bot@users.noreply.github.com"
