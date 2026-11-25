@@ -1,0 +1,12 @@
+{
+  "name": "iw-library-compare",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Compare a Figma library branch with the library, publish to Confluence and a changelog site",
+  "scripts": {
+    "test": "node tests/run-sample.js",
+    "compare": "node scripts/run-comparison.js"
+  },
+  "engines": { "node": ">=20" }
+}

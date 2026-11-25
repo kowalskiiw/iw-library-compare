@@ -1,0 +1,8 @@
+[build]
+  publish = "site"
+  # No build step: the site is static and reads site/data/*.json.
+
+[[headers]]
+  for = "/data/*"
+  [headers.values]
+    Cache-Control = "no-cache"
