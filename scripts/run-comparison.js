@@ -1,20 +1,32 @@
 #!/usr/bin/env node
-// Compares snapshots/library.json with a branch snapshot, then
-//   1) creates/updates the Confluence page
-//   2) writes the changelog entry (site/data/entries/<id>.json + entries.json)
+// Two jobs, both triggered by pushes (see .github/workflows/compare.yml):
 //
-// Usage (CI does this automatically):
-//   node scripts/run-comparison.js                      # branch snapshots changed in the last commit
+//  A) COMPARE  a branch snapshot (snapshots/branches/<key>.json) changed
+//       → diff against snapshots/library.json
+//       → create/update the Confluence page
+//       → write the changelog entry (site/data/entries/<id>.json + entries.json)
+//
+//  B) RE-CHECK snapshots/library.json changed (someone saved a new library snapshot,
+//     normally after a merge)
+//       → for every entry that is still "in review": is everything it touched in the
+//         library now? If yes the entry becomes "merged", its links switch to the
+//         library and its Confluence page is updated.
+//
+// Usage:
+//   node scripts/run-comparison.js                 # decide from the last commit
 //   node scripts/run-comparison.js --file snapshots/branches/<key>.json
-//   add --dry-run to skip all network calls and write the Confluence HTML to ./out
-// Test options: --library <path>  --data-dir <dir>  --out <dir>
+//   node scripts/run-comparison.js --recheck       # run job B explicitly
+//   add --dry-run to skip all network calls (Confluence HTML is written to ./out)
+// Test options: --library <path>  --data-dir <dir>  --out <dir>  --branches-dir <dir>
 
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { execSync } from 'child_process';
 import { join } from 'path';
 import { compareSnapshots } from './lib/diff.js';
 import { buildEntry, indexItem } from './lib/entry.js';
+import { applyStatus } from './lib/status.js';
 import { buildStorage, upsertPage, fetchIssue } from './lib/confluence.js';
+import { entryHeadline } from '../site/assets/describe.js';
 
 const args = {};
 for (let i = 2; i < process.argv.length; i++) {
@@ -25,25 +37,28 @@ for (let i = 2; i < process.argv.length; i++) {
   if (next && !next.startsWith('--')) { args[k] = next; i++; } else args[k] = true;
 }
 
-const DRY = Boolean(args['dry-run']) || process.env.DRY_RUN === '1';
+const env = process.env;
+const DRY = Boolean(args['dry-run']) || env.DRY_RUN === '1';
 const LIB_PATH = args.library || 'snapshots/library.json';
+const BRANCHES_DIR = args['branches-dir'] || 'snapshots/branches';
 const DATA_DIR = args['data-dir'] || 'site/data';
 const OUT_DIR = args.out || 'out';
+const RECHECK = Boolean(args.recheck) || env.RECHECK === 'true';
 
-const env = process.env;
 const atlassian = { domain: env.ATLASSIAN_DOMAIN, email: env.ATLASSIAN_EMAIL, token: env.ATLASSIAN_API_TOKEN };
 const haveAtlassian = Boolean(atlassian.domain && atlassian.email && atlassian.token);
 const siteUrl = env.SITE_URL || '';
 
 const readJson = (p) => JSON.parse(readFileSync(p, 'utf8'));
 const writeJson = (p, o) => writeFileSync(p, JSON.stringify(o, null, 2) + '\n');
+const indexPath = join(DATA_DIR, 'entries.json');
+const entryPath = (id) => join(DATA_DIR, 'entries', `${id}.json`);
 
-function snapshotFiles() {
-  const explicit = args.file || env.SNAPSHOT_INPUT;
-  if (explicit) return [explicit];
+let failures = 0;
+
+function changedFiles() {
   try {
-    const out = execSync('git diff --name-only HEAD~1 HEAD -- snapshots/branches', { encoding: 'utf8' }).trim();
-    return out ? out.split('\n').filter((f) => f.endsWith('.json') && existsSync(f)) : [];
+    return execSync('git diff --name-only HEAD~1 HEAD', { encoding: 'utf8' }).split('\n').filter(Boolean);
   } catch {
     return [];
   }
@@ -68,57 +83,117 @@ async function resolveTicket(key) {
   return info;
 }
 
+// Writes/updates the Confluence page. A failure is recorded and the run is marked
+// as failed at the end, but the entry data is still written and committed.
+async function publish(entry, message) {
+  const body = buildStorage(entry, { siteUrl });
+  if (DRY) {
+    writeFileSync(join(OUT_DIR, `confluence-${entry.id}.html`), body);
+    console.log(`   dry-run: wrote ${join(OUT_DIR, `confluence-${entry.id}.html`)}`);
+    return;
+  }
+  if (!(haveAtlassian && env.CONFLUENCE_SPACE_ID)) {
+    console.warn('   ⚠ Confluence skipped (ATLASSIAN_* secrets or CONFLUENCE_SPACE_ID missing).');
+    return;
+  }
+  try {
+    const page = await upsertPage({
+      ...atlassian,
+      spaceId: env.CONFLUENCE_SPACE_ID,
+      parentId: env.CONFLUENCE_PARENT_ID,
+      title: entryHeadline(entry), // identical to the changelog site headline
+      body,
+      pageId: entry.confluence && entry.confluence.id,
+      message,
+    });
+    entry.confluence = page;
+    console.log(`   Confluence: ${page.url}`);
+  } catch (e) {
+    failures++;
+    console.error(`❌ Confluence: ${e.message}`);
+  }
+}
+
+function saveEntry(entry, index) {
+  writeJson(entryPath(entry.id), entry);
+  const next = [indexItem(entry), ...index.filter((e) => e.id !== entry.id)]
+    .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+  writeJson(indexPath, next);
+  return next;
+}
+
+// ── A) compare ───────────────────────────────────────────────────────────────
+
+async function compare(file, library, index) {
+  console.log(`▶ compare ${file}`);
+  const branch = readJson(file);
+  const diff = compareSnapshots(library, branch);
+  const id = (branch.meta && branch.meta.branchKey) || null;
+  const existing = id && existsSync(entryPath(id)) ? readJson(entryPath(id)) : null;
+  const ticket = await resolveTicket(branch.meta && branch.meta.ticket);
+  const entry = buildEntry({ diff, library, branch, existing, ticket });
+  applyStatus(entry, library, branch, existing);
+
+  await publish(entry, 'Updated by IW Library Compare');
+  const next = saveEntry(entry, index);
+
+  const s = entry.summary.components;
+  console.log(`   ✅ ${entryHeadline(entry)} [${entry.status}]: ${s.affected} changed, ${s.added} added, ${s.removed} removed — ${entry.summary.namingOnly ? 'naming-only' : 'contains non-naming changes'}`);
+  return { id: entry.id, index: next };
+}
+
+// ── B) re-check merge status ─────────────────────────────────────────────────
+
+async function recheck(library, index, skipIds) {
+  const open = index.filter((i) => i.status !== 'merged' && !skipIds.has(i.id));
+  console.log(`▶ re-check ${open.length} open entr${open.length === 1 ? 'y' : 'ies'}`);
+  for (const item of open) {
+    const branchFile = join(BRANCHES_DIR, `${item.id}.json`);
+    if (!existsSync(entryPath(item.id)) || !existsSync(branchFile)) {
+      console.warn(`   ⚠ ${item.id}: entry or branch snapshot missing — skipped.`);
+      continue;
+    }
+    const entry = readJson(entryPath(item.id));
+    const before = { status: entry.status, done: entry.statusInfo && entry.statusInfo.done };
+    applyStatus(entry, library, readJson(branchFile), entry);
+    const changed = before.status !== entry.status || before.done !== entry.statusInfo.done;
+
+    if (changed) await publish(entry, `Status: ${entry.status}`);
+    index = saveEntry(entry, index);
+    console.log(`   ${entry.status === 'merged' ? '✅ merged' : '… in review'} ${entryHeadline(entry)} (${entry.statusInfo.done}/${entry.statusInfo.total} changes in the library)`);
+  }
+  return index;
+}
+
+// ── main ─────────────────────────────────────────────────────────────────────
+
 async function main() {
   if (!existsSync(LIB_PATH)) {
     throw new Error(`${LIB_PATH} not found. Run the plugin in the library (main) file first and click “Save library snapshot”.`);
   }
-  const files = snapshotFiles();
-  if (!files.length) { console.log('No branch snapshot to process.'); return; }
+  const explicit = args.file || env.SNAPSHOT_INPUT;
+  const changed = explicit || RECHECK ? [] : changedFiles();
+  const branchFiles = explicit
+    ? [explicit]
+    : changed.filter((f) => /^snapshots\/branches\/[^/]+\.json$/.test(f) && existsSync(f));
+  const libraryChanged = RECHECK || changed.includes('snapshots/library.json');
+
+  if (!branchFiles.length && !libraryChanged) { console.log('Nothing to do.'); return; }
 
   const library = readJson(LIB_PATH);
   mkdirSync(join(DATA_DIR, 'entries'), { recursive: true });
   if (DRY) mkdirSync(OUT_DIR, { recursive: true });
-  const indexPath = join(DATA_DIR, 'entries.json');
   let index = existsSync(indexPath) ? readJson(indexPath) : [];
 
-  for (const file of files) {
-    console.log(`▶ ${file}`);
-    const branch = readJson(file);
-    const diff = compareSnapshots(library, branch);
-    const id = (branch.meta && branch.meta.branchKey) || null;
-    const entryPath = id ? join(DATA_DIR, 'entries', `${id}.json`) : null;
-    const existing = entryPath && existsSync(entryPath) ? readJson(entryPath) : null;
-    const ticket = await resolveTicket(branch.meta && branch.meta.ticket);
-    const entry = buildEntry({ diff, library, branch, existing, ticket });
-
-    const title = `Library comparison: ${entry.title}`;
-    const body = buildStorage(entry, { siteUrl });
-    if (DRY) {
-      writeFileSync(join(OUT_DIR, `confluence-${entry.id}.html`), body);
-      console.log(`   dry-run: wrote ${join(OUT_DIR, `confluence-${entry.id}.html`)}`);
-    } else if (haveAtlassian && env.CONFLUENCE_SPACE_ID) {
-      const page = await upsertPage({
-        ...atlassian,
-        spaceId: env.CONFLUENCE_SPACE_ID,
-        parentId: env.CONFLUENCE_PARENT_ID,
-        title, body,
-        pageId: entry.confluence && entry.confluence.id,
-        message: 'Updated by IW Library Compare',
-      });
-      entry.confluence = page;
-      console.log(`   Confluence: ${page.url}`);
-    } else {
-      console.warn('   ⚠ Confluence skipped (ATLASSIAN_* secrets or CONFLUENCE_SPACE_ID missing).');
-    }
-
-    writeJson(join(DATA_DIR, 'entries', `${entry.id}.json`), entry);
-    index = [indexItem(entry), ...index.filter((e) => e.id !== entry.id)]
-      .sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
-    writeJson(indexPath, index);
-
-    const s = entry.summary.components;
-    console.log(`   ✅ ${entry.title}: ${s.affected} changed, ${s.added} added, ${s.removed} removed — ${entry.summary.namingOnly ? 'naming-only' : 'contains non-naming changes'}`);
+  const done = new Set();
+  for (const f of branchFiles) {
+    const r = await compare(f, library, index);
+    index = r.index;
+    done.add(r.id);
   }
+  if (libraryChanged) index = await recheck(library, index, done);
 }
 
-main().catch((e) => { console.error('❌', e.message); process.exit(1); });
+main()
+  .then(() => { if (failures) process.exitCode = 1; })
+  .catch((e) => { console.error('❌', e.message); process.exit(1); });
