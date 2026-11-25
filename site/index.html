@@ -23,6 +23,7 @@
 </main>
 
 <script type="module">
+  import { libraryUrl } from './assets/describe.js';
   const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   const list = document.getElementById('list');
   const empty = document.getElementById('empty');
@@ -33,6 +34,7 @@
   function card(e) {
     const s = e.summary;
     const chips = [
+      e.status === 'merged' ? chip('Merged', 'ok') : chip('In review', 'warn'),
       s.namingOnly ? chip('Naming only', 'ok') : chip('Contains non-naming changes', 'warn'),
       s.affected ? chip(`${s.affected} components`) : '',
       s.renamed ? chip(`${s.renamed} renamed`) : '',
@@ -44,11 +46,12 @@
     const meta = [
       esc((e.updatedAt || '').slice(0, 10)),
       e.ticket ? `<a href="${esc(e.ticket.url || '#')}" target="_blank" rel="noopener">${esc(e.ticket.key)}</a>` : '',
+      e.branchUrl ? `<a href="${esc(libraryUrl(e.branchUrl))}" target="_blank" rel="noopener">Figma library</a>` : '',
       e.branchUrl ? `<a href="${esc(e.branchUrl)}" target="_blank" rel="noopener">Figma branch</a>` : '',
       e.confluenceUrl ? `<a href="${esc(e.confluenceUrl)}" target="_blank" rel="noopener">Confluence</a>` : '',
     ].filter(Boolean).join('<span>·</span>');
     return `<div class="entry-card">
-      <div class="entry-title"><a class="stretched" href="detail.html?id=${encodeURIComponent(e.id)}">${esc(e.title)}</a></div>
+      <div class="entry-title"><a class="stretched" href="detail.html?id=${encodeURIComponent(e.id)}">${e.version ? `<span class="ver">${esc(e.version)}</span> – <span class="rest">${esc(e.title)}</span>` : esc(e.title)}</a></div>
       <div class="meta">${meta}</div>
       <div class="chips">${chips}</div>
     </div>`;
@@ -57,7 +60,7 @@
   function render() {
     const q = document.getElementById('search').value.trim().toLowerCase();
     const shown = entries.filter((e) =>
-      !q || [e.title, e.ticket && e.ticket.key, e.ticket && e.ticket.summary, e.id].filter(Boolean).join(' ').toLowerCase().includes(q));
+      !q || [e.version, e.title, e.ticket && e.ticket.key, e.ticket && e.ticket.summary, e.id].filter(Boolean).join(' ').toLowerCase().includes(q));
     list.innerHTML = shown.map(card).join('');
     empty.hidden = shown.length > 0;
     empty.textContent = entries.length ? 'No comparison matches your search.' : 'No comparisons yet.';

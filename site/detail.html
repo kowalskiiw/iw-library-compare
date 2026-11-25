@@ -21,8 +21,8 @@
 
 <script type="module">
   import {
-    nodeLink, describeComponent, describeStyle, describeVariable,
-    groupByPage, headlineText, guidance, limitList, SCOPE_TEXT,
+    libLink, addedLink, removedLink, libraryUrl, entryHeadline, describeComponent, describeStyle, describeVariable,
+    groupByPage, headlineText, guidance, limitList, SCOPE_TEXT, linkNote, statusLines, statusLabel, isMerged,
   } from './assets/describe.js';
 
   const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -36,26 +36,30 @@
 
   function compLinks(e, comps) {
     const { shown, more } = limitList(comps, 8);
-    const html = shown.map((c) => `<a class="comp" href="${esc(nodeLink(e.branch.url, c.id))}" target="_blank" rel="noopener">${esc(c.name)}</a>`).join(', ');
+    const html = shown.map((c) => `<a class="comp" href="${esc(libLink(e, c.id))}" target="_blank" rel="noopener">${esc(c.name)}</a>`).join(', ');
     return more ? `${html}, +${more} more (see “Changes per component”)` : html;
   }
 
   function render(e) {
-    document.title = `${e.title} — Library comparison`;
+    document.title = `${entryHeadline(e)} — Library comparison`;
     const url = e.branch.url;
     const h = [];
 
-    h.push(`<a class="back" href="./">← All comparisons</a><h1>${esc(e.title)}</h1>`);
+    h.push(`<a class="back" href="./">← All comparisons</a><h1>${e.version ? `<span class="ver">${esc(e.version)}</span> – <span class="rest">${esc(e.title)}</span>` : esc(e.title)}</h1>`);
 
     const meta = [
       `Compared on ${date(e.updatedAt)}`,
       `library snapshot ${date(e.library.snapshotAt)}`,
       `branch snapshot ${date(e.branch.snapshotAt)}`,
+      `<a href="${esc(libraryUrl(url))}" target="_blank" rel="noopener">Figma library</a>`,
       `<a href="${esc(url)}" target="_blank" rel="noopener">Figma branch</a>`,
       e.ticket ? `<a href="${esc(e.ticket.url || '#')}" target="_blank" rel="noopener">${esc(e.ticket.key)}</a>${e.ticket.summary ? ' — ' + esc(e.ticket.summary) : ''}` : '',
       e.confluence ? `<a href="${esc(e.confluence.url)}" target="_blank" rel="noopener">Confluence page</a>` : '',
     ].filter(Boolean).join('<span>·</span>');
-    h.push(`<div class="panel">${headlineText(e).map((t) => `<p>${esc(t)}</p>`).join('')}<div class="meta">${meta}</div></div>`);
+    const sl = statusLines(e);
+    const statusHtml = `<p><span class="chip ${isMerged(e) ? 'ok' : 'warn'}">${esc(statusLabel(e))}</span>${esc(sl[0])}</p>` +
+      sl.slice(1).map((t) => `<p>${esc(t)}</p>`).join('');
+    h.push(`<div class="panel">${statusHtml}${headlineText(e).map((t) => `<p>${esc(t)}</p>`).join('')}<div class="meta">${meta}</div></div>`);
 
     const g = guidance(e);
     h.push('<h2>What this means for you</h2>');
@@ -105,20 +109,23 @@
     const c = e.components;
     if (c.added.length) {
       h.push('<h2>Components added</h2>');
-      h.push(table(['Component', 'Page'], c.added.map((x) => [`<a class="comp" href="${esc(nodeLink(url, x.id))}" target="_blank" rel="noopener">${esc(x.name)}</a>`, esc(x.page)])));
+      h.push(table(['Component', 'Page'], c.added.map((x) => [`<a class="comp" href="${esc(addedLink(e, x.id))}" target="_blank" rel="noopener">${esc(x.name)}</a>`, esc(x.page)])));
     }
     if (c.removed.length) {
       h.push('<h2>Components removed</h2>');
-      h.push(table(['Component', 'Page'], c.removed.map((x) => [esc(x.name), esc(x.page)])));
+      h.push(table(['Component', 'Page'], c.removed.map((x) => {
+        const href = removedLink(e, x.id);
+        return [href ? `<a class="comp" href="${esc(href)}" target="_blank" rel="noopener">${esc(x.name)}</a>` : esc(x.name), esc(x.page)];
+      })));
     }
     if (c.changed.length) {
       h.push('<h2>Changes per component</h2>');
-      h.push('<p class="note">Names are the new names from the branch. Click a name to open the component in Figma. “Was” shows the old name when the component was renamed.</p>');
+      h.push(`<p class="note">Names are the new names from the branch. ${esc(linkNote(e))} “Was” shows the old name when the component was renamed.</p>`);
       for (const grp of groupByPage(c.changed)) {
         h.push(`<h3>${esc(grp.page)} <span class="count">(${grp.items.length})</span></h3>`);
         h.push(table(['Component', 'Was', 'Changes'], grp.items.map((x) => {
           const d = describeComponent(x);
-          return [`<a class="comp" href="${esc(nodeLink(url, x.id))}" target="_blank" rel="noopener">${esc(x.name)}</a>`, d.was ? code(d.was) : '—', lines(d.lines)];
+          return [`<a class="comp" href="${esc(libLink(e, x.id))}" target="_blank" rel="noopener">${esc(x.name)}</a>`, d.was ? code(d.was) : '—', lines(d.lines)];
         })));
       }
     }
@@ -128,6 +135,7 @@
 
     const links = [];
     if (e.confluence) links.push(`<a href="${esc(e.confluence.url)}" target="_blank" rel="noopener">Confluence</a>`);
+    links.push(`<a href="${esc(libraryUrl(url))}" target="_blank" rel="noopener">Figma library</a>`);
     links.push(`<a href="${esc(url)}" target="_blank" rel="noopener">Figma branch</a>`);
     document.getElementById('header-links').innerHTML = links.join('');
   }
