@@ -3,12 +3,12 @@
   "version": "v2026.11.25.8",
   "title": "CXI-2113-Color-Ramp",
   "createdAt": "2026-11-25T14:46:15.399Z",
-  "updatedAt": "2026-11-26T14:06:00.562Z",
+  "updatedAt": "2026-11-26T14:17:33.496Z",
   "branch": {
     "url": "https://www.figma.com/design/e9id05pwA4x9x8DtJgwWXR/branch/2RZLnNll3bqysVmOh2CfEV/IW-Design-Library",
     "key": "2RZLnNll3bqysVmOh2CfEV",
     "fileName": "CXI-2113-Color-Ramp",
-    "snapshotAt": "2026-11-26T14:05:46.091Z"
+    "snapshotAt": "2026-11-26T14:17:16.596Z"
   },
   "library": {
     "fileName": "IW Design Library",
@@ -39,9 +39,9 @@
     },
     "styles": {
       "library": 245,
-      "branch": 237,
+      "branch": 236,
       "added": 1,
-      "removed": 9,
+      "removed": 10,
       "changed": 1,
       "valueChanges": 0
     },
@@ -122,6 +122,12 @@
         "type": "paint",
         "name": "Neutral/Grey/Light/80",
         "value": "#B3B3B3"
+      },
+      {
+        "id": "S:a632822a937ce2f38ce2dad4b93def246ea7f8e7,",
+        "type": "paint",
+        "name": "Neutral/Grey/Medium/300",
+        "value": "#838383"
       },
       {
         "id": "S:65aedfa48d4905a89d8a684e6d354c738ccd9970,",
@@ -1187,11 +1193,11 @@
   },
   "status": "in-review",
   "statusInfo": {
-    "checkedAt": "2026-11-26T14:06:00.562Z",
+    "checkedAt": "2026-11-26T14:17:33.497Z",
     "librarySnapshotAt": "2026-11-26T14:05:23.605Z",
     "done": 0,
-    "total": 60,
-    "pendingCount": 60,
+    "total": 61,
+    "pendingCount": 61,
     "pending": [
       {
         "kind": "component",

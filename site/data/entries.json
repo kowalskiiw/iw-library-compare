@@ -5,7 +5,7 @@
     "status": "in-review",
     "title": "CXI-2113-Color-Ramp",
     "createdAt": "2026-11-25T14:46:15.399Z",
-    "updatedAt": "2026-11-26T14:06:00.562Z",
+    "updatedAt": "2026-11-26T14:17:33.496Z",
     "ticket": {
       "key": "CXI-2113",
       "url": "https://interwetten.atlassian.net/browse/CXI-2113",
@@ -20,7 +20,7 @@
       "renamed": 0,
       "propertyChanges": 0,
       "visualChanges": 49,
-      "styles": 11,
+      "styles": 12,
       "variables": 0
     }
   },
