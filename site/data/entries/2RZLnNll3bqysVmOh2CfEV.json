@@ -3,16 +3,16 @@
   "version": "v2026.11.25.8",
   "title": "CXI-2113-Color-Ramp",
   "createdAt": "2026-11-25T14:46:15.399Z",
-  "updatedAt": "2026-11-25T14:46:15.399Z",
+  "updatedAt": "2026-11-26T14:06:00.562Z",
   "branch": {
     "url": "https://www.figma.com/design/e9id05pwA4x9x8DtJgwWXR/branch/2RZLnNll3bqysVmOh2CfEV/IW-Design-Library",
     "key": "2RZLnNll3bqysVmOh2CfEV",
     "fileName": "CXI-2113-Color-Ramp",
-    "snapshotAt": "2026-11-25T14:46:00.773Z"
+    "snapshotAt": "2026-11-26T14:05:46.091Z"
   },
   "library": {
     "fileName": "IW Design Library",
-    "snapshotAt": "2026-11-25T13:59:27.508Z"
+    "snapshotAt": "2026-11-26T14:05:23.605Z"
   },
   "ticket": {
     "key": "CXI-2113",
@@ -30,19 +30,19 @@
       "branch": 802,
       "added": 0,
       "removed": 0,
-      "affected": 0,
+      "affected": 49,
       "renamed": 0,
       "propertyChanges": 0,
-      "visualChanges": 0,
+      "visualChanges": 49,
       "descriptionChanges": 0,
       "moved": 0
     },
     "styles": {
       "library": 245,
-      "branch": 245,
-      "added": 0,
-      "removed": 0,
-      "changed": 0,
+      "branch": 237,
+      "added": 1,
+      "removed": 9,
+      "changed": 1,
       "valueChanges": 0
     },
     "variables": {
@@ -58,7 +58,7 @@
       "removed": 0,
       "renamed": 0
     },
-    "namingOnly": true
+    "namingOnly": false
   },
   "pages": {
     "added": [],
@@ -66,9 +66,80 @@
     "renamed": []
   },
   "styles": {
-    "added": [],
-    "removed": [],
-    "changed": []
+    "added": [
+      {
+        "id": "S:6ab3d27c9289816f1a9c02a243c817e49c4eb27d,",
+        "type": "paint",
+        "name": "Accent Light Mode/Lime Green/350",
+        "value": "#D8F29C"
+      }
+    ],
+    "removed": [
+      {
+        "id": "S:b0bb8bd5375c97a85e4e7d8d9510676442fb0948,",
+        "type": "paint",
+        "name": "Accent Light Mode/Lime Green/750",
+        "value": "#6A8F0E"
+      },
+      {
+        "id": "S:42553daf8b1fb2fc94cc0dc75fd04a61535d9262,",
+        "type": "paint",
+        "name": "Accent Light Mode/Orange/600",
+        "value": "#E17F00"
+      },
+      {
+        "id": "S:289e2e7829ad37f35f76d55e142e59ce8fcaa7af,",
+        "type": "paint",
+        "name": "Betslip/Loading Blue",
+        "value": "#0067C6"
+      },
+      {
+        "id": "S:0effe071411b4fc3251b116d2f58f9a8c382b4c3,",
+        "type": "paint",
+        "name": "Casino Game Search Filter/Active Border",
+        "value": "#96DBFA"
+      },
+      {
+        "id": "S:26f5778c1693b124e51838510a1c55b34f875871,",
+        "type": "paint",
+        "name": "Casino Game Search Filter/Background",
+        "value": "#EEEBE5"
+      },
+      {
+        "id": "S:8fbf7dfe654a12db0cf9bb35837577919e758e5b,",
+        "type": "paint",
+        "name": "Casino Game Search Filter/Default Fill Color",
+        "value": "#2B94FE"
+      },
+      {
+        "id": "S:d3d49ca251fcf1035d55575ce1cc82a533f2990f,",
+        "type": "paint",
+        "name": "Neutral/Grey/Dark/700",
+        "value": "#434343"
+      },
+      {
+        "id": "S:e9b1945a2f076f272e808b381cb81afb97fc4ae9,",
+        "type": "paint",
+        "name": "Neutral/Grey/Light/80",
+        "value": "#B3B3B3"
+      },
+      {
+        "id": "S:65aedfa48d4905a89d8a684e6d354c738ccd9970,",
+        "type": "paint",
+        "name": "Neutral/Grey/Medium/500",
+        "value": "#636363"
+      }
+    ],
+    "changed": [
+      {
+        "id": "S:3585e2ad130c69af5072c7fd0afda7f9bda4e0ec,",
+        "type": "paint",
+        "name": "Accent Light Mode/Orange/600",
+        "oldName": "Accent Light Mode/Orange/650",
+        "description": null,
+        "value": null
+      }
+    ]
   },
   "variables": {
     "added": [],
@@ -78,20 +149,1126 @@
   "components": {
     "added": [],
     "removed": [],
-    "changed": []
+    "changed": [
+      {
+        "id": "12677:3620",
+        "page": "Bet Results",
+        "name": ".Bet Indicator",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 2,
+          "total": 2
+        }
+      },
+      {
+        "id": "16809:11655",
+        "page": "Rotators (Others) ❌",
+        "name": ".Casino/Mobile/Medium/InfoTeaser",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 2,
+          "total": 2
+        }
+      },
+      {
+        "id": "5373:2751",
+        "page": "Helpers",
+        "name": ".Documentation component",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 1,
+          "total": 1
+        }
+      },
+      {
+        "id": "8724:5083",
+        "page": "Helpers",
+        "name": ".Documentation crosslinks",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 3,
+          "total": 3
+        }
+      },
+      {
+        "id": "10424:12651",
+        "page": "Header - v",
+        "name": ".Header Base/Default - Menubar - Menu Items",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 1,
+          "total": 4
+        }
+      },
+      {
+        "id": "5372:2646",
+        "page": "Helpers",
+        "name": ".Helpers/Design-System-Sidebar",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 1,
+          "total": 1
+        }
+      },
+      {
+        "id": "12517:22989",
+        "page": "Slider",
+        "name": ".Slider Control/Casino",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 1,
+          "total": 2
+        }
+      },
+      {
+        "id": "16809:12322",
+        "page": "Rotators (Others) ❌",
+        "name": ".Teaser/Desktop 4k/Big/InfoTeaser",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 2,
+          "total": 2
+        }
+      },
+      {
+        "id": "23030:16969",
+        "page": "Rotators (Others) ❌",
+        "name": ".Teaser/Desktop 4k/Big/LiveInfoTeaser",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 1,
+          "total": 1
+        }
+      },
+      {
+        "id": "16809:12363",
+        "page": "Rotators (Others) ❌",
+        "name": ".Teaser/Desktop 4k/Medium/InfoTeaser",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 2,
+          "total": 2
+        }
+      },
+      {
+        "id": "16804:13911",
+        "page": "Rotators (Others) ❌",
+        "name": ".Teaser/Desktop/Big/InfoTeaser",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 2,
+          "total": 2
+        }
+      },
+      {
+        "id": "16804:14227",
+        "page": "Rotators (Others) ❌",
+        "name": ".Teaser/Desktop/Medium/InfoTeaser",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 2,
+          "total": 2
+        }
+      },
+      {
+        "id": "23030:16869",
+        "page": "Rotators (Others) ❌",
+        "name": ".Teaser/Desktop/Medium/LiveInfoTeaser",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 1,
+          "total": 1
+        }
+      },
+      {
+        "id": "16809:11612",
+        "page": "Rotators (Others) ❌",
+        "name": ".Teaser/Mobile/Big/InfoTeaser",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 2,
+          "total": 2
+        }
+      },
+      {
+        "id": "23030:16916",
+        "page": "Rotators (Others) ❌",
+        "name": ".Teaser/Mobile/Medium/LiveInfoTeasers",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 1,
+          "total": 1
+        }
+      },
+      {
+        "id": "11412:15794",
+        "page": "Toggle",
+        "name": ".Toggle Base",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 1,
+          "total": 2
+        }
+      },
+      {
+        "id": "11415:894",
+        "page": "Toggle",
+        "name": ".Toggle Base/Skeleton",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 1,
+          "total": 1
+        }
+      },
+      {
+        "id": "13684:5198",
+        "page": "Badges",
+        "name": "Badge/Countdown",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 1,
+          "total": 1
+        }
+      },
+      {
+        "id": "12687:11810",
+        "page": "Bet Results",
+        "name": "Bet Results - Results Inside - Desktop (Default)",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 15,
+          "total": 48
+        }
+      },
+      {
+        "id": "12733:4197",
+        "page": "Bet Results",
+        "name": "Bet Results - Results Inside - Mobile (Default)",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 33,
+          "total": 96
+        }
+      },
+      {
+        "id": "12677:3624",
+        "page": "Bet Results",
+        "name": "Bet Results - Results Outside - Desktop (Default)",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 30,
+          "total": 108
+        }
+      },
+      {
+        "id": "12750:10209",
+        "page": "Bet Results",
+        "name": "Bet Results - Results Outside - Mobile (Default)",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 15,
+          "total": 48
+        }
+      },
+      {
+        "id": "16067:19779",
+        "page": "Bet Results",
+        "name": "Bet Results (Hot Bets) - No Results - Desktop & Mobile",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 4,
+          "total": 8
+        }
+      },
+      {
+        "id": "12776:1337",
+        "page": "Bet Results",
+        "name": "Bet Results (Rotator Bets) - Results Inside - Desktop & Mobile",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 12,
+          "total": 48
+        }
+      },
+      {
+        "id": "12769:990",
+        "page": "Checkboxes",
+        "name": "Checkbox bigger with text Dark",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 3,
+          "total": 14
+        }
+      },
+      {
+        "id": "14561:505",
+        "page": "Checkboxes",
+        "name": "Checkbox with text and provider Dark",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 3,
+          "total": 14
+        }
+      },
+      {
+        "id": "15061:202106",
+        "page": "Checkboxes",
+        "name": "Checkbox with text and sports icon Dark",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 3,
+          "total": 14
+        }
+      },
+      {
+        "id": "12769:871",
+        "page": "Checkboxes",
+        "name": "Checkbox with text Dark",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 3,
+          "total": 14
+        }
+      },
+      {
+        "id": "16733:270",
+        "page": "Slider",
+        "name": "Gaming/Single Item/Slider - Single Item - Gaming",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 2,
+          "total": 2
+        }
+      },
+      {
+        "id": "12836:6248",
+        "page": "Inputs",
+        "name": "Input Search - Casino Dark Mode",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 16,
+          "total": 16
+        }
+      },
+      {
+        "id": "12468:570",
+        "page": "Inputs",
+        "name": "Input Search - Casino Light Mode",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 16,
+          "total": 16
+        }
+      },
+      {
+        "id": "11556:5220",
+        "page": "Inputs",
+        "name": "Input Search - Sportsbook",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 2,
+          "total": 4
+        }
+      },
+      {
+        "id": "14628:56625",
+        "page": "Accordions",
+        "name": "Live Casino Game Filter",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 6,
+          "total": 10
+        }
+      },
+      {
+        "id": "19982:91692",
+        "page": "Sportsbook Modals",
+        "name": "Login Modals",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 4,
+          "total": 20
+        }
+      },
+      {
+        "id": "10424:12684",
+        "page": "Header - v",
+        "name": "Menu Bar/Default - Menubar - Desktop & Mobile",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 4,
+          "total": 4
+        }
+      },
+      {
+        "id": "12222:25669",
+        "page": "Buttons",
+        "name": "Primary Button",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 9,
+          "total": 216
+        }
+      },
+      {
+        "id": "12772:1830",
+        "page": "Radio Buttons",
+        "name": "Radio Button with Text Dark",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 4,
+          "total": 12
+        }
+      },
+      {
+        "id": "12849:20778",
+        "page": "Rotators (Hero)",
+        "name": "Rotator Navigation",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 4,
+          "total": 24
+        }
+      },
+      {
+        "id": "10424:12600",
+        "page": "Header - v",
+        "name": "Search Bar/Mobile",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 1,
+          "total": 1
+        }
+      },
+      {
+        "id": "12258:4334",
+        "page": "Buttons",
+        "name": "Secondary Button",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 18,
+          "total": 96
+        }
+      },
+      {
+        "id": "12783:2706",
+        "page": "Indicators",
+        "name": "Step First",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 1,
+          "total": 4
+        }
+      },
+      {
+        "id": "12788:653",
+        "page": "Indicators",
+        "name": "Step First Dark",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 4,
+          "total": 4
+        }
+      },
+      {
+        "id": "12783:2781",
+        "page": "Indicators",
+        "name": "Step Intermediate",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 1,
+          "total": 4
+        }
+      },
+      {
+        "id": "12788:683",
+        "page": "Indicators",
+        "name": "Step Intermediate Dark",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 4,
+          "total": 4
+        }
+      },
+      {
+        "id": "12788:717",
+        "page": "Indicators",
+        "name": "Step Last Dark",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 4,
+          "total": 4
+        }
+      },
+      {
+        "id": "26938:6526",
+        "page": "Tabs",
+        "name": "Tab Items/Tab Item - Text + Notification",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 1,
+          "total": 10
+        }
+      },
+      {
+        "id": "27902:9821",
+        "page": "Tags",
+        "name": "Tag/Clickable/Text + Border",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 2,
+          "total": 4
+        }
+      },
+      {
+        "id": "12781:3233",
+        "page": "Tags",
+        "name": "Tag/Dismissible",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 8,
+          "total": 8
+        }
+      },
+      {
+        "id": "12767:962",
+        "page": "Indicators",
+        "name": "Volatility Indicator - Dark",
+        "oldName": null,
+        "description": null,
+        "moved": null,
+        "propRenames": [],
+        "valueRenames": [],
+        "propsAdded": [],
+        "propsRemoved": [],
+        "valuesAdded": [],
+        "valuesRemoved": [],
+        "defaultsChanged": [],
+        "variantsAdded": 0,
+        "variantsRemoved": 0,
+        "visual": {
+          "changed": 6,
+          "total": 6
+        }
+      }
+    ]
   },
   "renames": {
     "properties": [],
     "values": []
   },
-  "status": "merged",
+  "status": "in-review",
   "statusInfo": {
-    "checkedAt": "2026-11-25T14:46:15.410Z",
-    "librarySnapshotAt": "2026-11-25T13:59:27.508Z",
+    "checkedAt": "2026-11-26T14:06:00.562Z",
+    "librarySnapshotAt": "2026-11-26T14:05:23.605Z",
     "done": 0,
-    "total": 0,
-    "pendingCount": 0,
-    "pending": [],
+    "total": 60,
+    "pendingCount": 60,
+    "pending": [
+      {
+        "kind": "component",
+        "id": "12677:3620",
+        "name": ".Bet Indicator"
+      },
+      {
+        "kind": "component",
+        "id": "16809:11655",
+        "name": ".Casino/Mobile/Medium/InfoTeaser"
+      },
+      {
+        "kind": "component",
+        "id": "5373:2751",
+        "name": ".Documentation component"
+      },
+      {
+        "kind": "component",
+        "id": "8724:5083",
+        "name": ".Documentation crosslinks"
+      },
+      {
+        "kind": "component",
+        "id": "10424:12651",
+        "name": ".Header Base/Default - Menubar - Menu Items"
+      },
+      {
+        "kind": "component",
+        "id": "5372:2646",
+        "name": ".Helpers/Design-System-Sidebar"
+      },
+      {
+        "kind": "component",
+        "id": "12517:22989",
+        "name": ".Slider Control/Casino"
+      },
+      {
+        "kind": "component",
+        "id": "16809:12322",
+        "name": ".Teaser/Desktop 4k/Big/InfoTeaser"
+      },
+      {
+        "kind": "component",
+        "id": "23030:16969",
+        "name": ".Teaser/Desktop 4k/Big/LiveInfoTeaser"
+      },
+      {
+        "kind": "component",
+        "id": "16809:12363",
+        "name": ".Teaser/Desktop 4k/Medium/InfoTeaser"
+      },
+      {
+        "kind": "component",
+        "id": "16804:13911",
+        "name": ".Teaser/Desktop/Big/InfoTeaser"
+      },
+      {
+        "kind": "component",
+        "id": "16804:14227",
+        "name": ".Teaser/Desktop/Medium/InfoTeaser"
+      },
+      {
+        "kind": "component",
+        "id": "23030:16869",
+        "name": ".Teaser/Desktop/Medium/LiveInfoTeaser"
+      },
+      {
+        "kind": "component",
+        "id": "16809:11612",
+        "name": ".Teaser/Mobile/Big/InfoTeaser"
+      },
+      {
+        "kind": "component",
+        "id": "23030:16916",
+        "name": ".Teaser/Mobile/Medium/LiveInfoTeasers"
+      }
+    ],
     "mergedAt": null
   }
 }
