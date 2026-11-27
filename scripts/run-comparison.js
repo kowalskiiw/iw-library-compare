@@ -16,6 +16,8 @@
 //   node scripts/run-comparison.js                 # decide from the last commit
 //   node scripts/run-comparison.js --file snapshots/branches/<key>.json
 //   node scripts/run-comparison.js --recheck       # run job B explicitly
+//   node scripts/run-comparison.js --republish     # rebuild every Confluence page from the stored
+//                                                  # entries (no new diff), e.g. after a title/wording change
 //   add --dry-run to skip all network calls (Confluence HTML is written to ./out)
 // Test options: --library <path>  --data-dir <dir>  --out <dir>  --branches-dir <dir>
 
@@ -44,6 +46,7 @@ const BRANCHES_DIR = args['branches-dir'] || 'snapshots/branches';
 const DATA_DIR = args['data-dir'] || 'site/data';
 const OUT_DIR = args.out || 'out';
 const RECHECK = Boolean(args.recheck) || env.RECHECK === 'true';
+const REPUBLISH = Boolean(args.republish) || env.REPUBLISH === 'true';
 
 const atlassian = { domain: env.ATLASSIAN_DOMAIN, email: env.ATLASSIAN_EMAIL, token: env.ATLASSIAN_API_TOKEN };
 const haveAtlassian = Boolean(atlassian.domain && atlassian.email && atlassian.token);
@@ -165,6 +168,22 @@ async function recheck(library, index, skipIds) {
   return index;
 }
 
+// ── C) republish ─────────────────────────────────────────────────────────────
+// Re-renders the Confluence page of every entry from its STORED data. Nothing is
+// compared again, so merged entries keep their content (a new diff against today's
+// library would show nothing).
+
+async function republish(index) {
+  console.log(`▶ republish ${index.length} Confluence page(s) from the stored entries`);
+  for (const item of [...index]) {
+    if (!existsSync(entryPath(item.id))) continue;
+    const entry = readJson(entryPath(item.id));
+    await publish(entry, 'Republished by IW Library Compare');
+    index = saveEntry(entry, index);
+  }
+  return index;
+}
+
 // ── main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -172,13 +191,13 @@ async function main() {
     throw new Error(`${LIB_PATH} not found. Run the plugin in the library (main) file first and click “Save library snapshot”.`);
   }
   const explicit = args.file || env.SNAPSHOT_INPUT;
-  const changed = explicit || RECHECK ? [] : changedFiles();
+  const changed = explicit || RECHECK || REPUBLISH ? [] : changedFiles();
   const branchFiles = explicit
     ? [explicit]
     : changed.filter((f) => /^snapshots\/branches\/[^/]+\.json$/.test(f) && existsSync(f));
   const libraryChanged = RECHECK || changed.includes('snapshots/library.json');
 
-  if (!branchFiles.length && !libraryChanged) { console.log('Nothing to do.'); return; }
+  if (!branchFiles.length && !libraryChanged && !REPUBLISH) { console.log('Nothing to do.'); return; }
 
   const library = readJson(LIB_PATH);
   mkdirSync(join(DATA_DIR, 'entries'), { recursive: true });
@@ -192,6 +211,7 @@ async function main() {
     done.add(r.id);
   }
   if (libraryChanged) index = await recheck(library, index, done);
+  if (REPUBLISH) index = await republish(index);
 }
 
 main()
