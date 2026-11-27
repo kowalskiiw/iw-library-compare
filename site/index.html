@@ -27,7 +27,6 @@
   <div class="modal" id="dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
     <div class="modal-head">
       <h1 id="modal-title"></h1>
-      <div class="modal-links" id="modal-links"></div>
       <button class="modal-close" id="modal-close" type="button" aria-label="Close">×</button>
     </div>
     <div class="modal-body" id="modal-body"></div>
@@ -36,7 +35,7 @@
 
 <script type="module">
   import { libraryUrl, entryHeadline } from './assets/describe.js';
-  import { esc, renderDetailBody, headerLinks } from './assets/detail-view.js';
+  import { esc, renderDetailBody, bindDetailInteractions } from './assets/detail-view.js';
 
   const $ = (id) => document.getElementById(id);
   const list = $('list');
@@ -97,7 +96,6 @@
     currentId = id;
     const item = entries.find((e) => e.id === id);
     $('modal-title').textContent = item ? entryHeadline(item) : '';
-    $('modal-links').innerHTML = '';
     $('modal-body').innerHTML = '<p class="empty">Loading…</p>';
     modal.hidden = false;
     document.body.classList.add('modal-open');
@@ -112,7 +110,6 @@
       }
       if (currentId !== id) return; // closed or switched while loading
       $('modal-title').textContent = entryHeadline(e);
-      $('modal-links').innerHTML = headerLinks(e) + `<a href="detail.html?id=${encodeURIComponent(id)}">Open as page</a>`;
       $('modal-body').innerHTML = renderDetailBody(e);
       $('modal-body').scrollTop = 0;
     } catch (err) {
@@ -169,6 +166,7 @@
     if (ev.shiftKey && (document.activeElement === first || document.activeElement === dialog)) { ev.preventDefault(); last.focus(); }
     else if (!ev.shiftKey && document.activeElement === last) { ev.preventDefault(); first.focus(); }
   });
+  bindDetailInteractions($('modal-body'));
   window.addEventListener('hashchange', syncFromHash);
 
   try {

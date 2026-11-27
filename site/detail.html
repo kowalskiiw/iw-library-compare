@@ -21,7 +21,7 @@
 
 <script type="module">
   import { entryHeadline } from './assets/describe.js';
-  import { esc, renderDetailBody, headerLinks } from './assets/detail-view.js';
+  import { esc, renderDetailBody, headerLinks, bindDetailInteractions } from './assets/detail-view.js';
 
   const id = new URLSearchParams(location.search).get('id');
   try {
@@ -33,6 +33,7 @@
     document.getElementById('root').innerHTML =
       `<a class="back" href="./">← All comparisons</a><h1>${esc(entryHeadline(e))}</h1>${renderDetailBody(e)}`;
     document.getElementById('header-links').innerHTML = headerLinks(e);
+    bindDetailInteractions(document.getElementById('root'));
   } catch (err) {
     document.getElementById('loading').textContent = err.message;
   }
