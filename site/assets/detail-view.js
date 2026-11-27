@@ -54,13 +54,147 @@ function compLinks(e, comps) {
   return more ? `${html}, +${more} more (see “Changes per component”)` : html;
 }
 
-// Makes "Expand all / Collapse all" work. Call once with the element that holds the rendered detail.
+// ── component filter ────────────────────────────────────────────────────────
+// Everything below works on the already rendered DOM (no re-render), so it can be used by the
+// modal and by the standalone page. It only touches the "Changes per component" list.
+
+const plural = (n) => `${n} component${n === 1 ? '' : 's'}`;
+
+function clearHighlights(root) {
+  root.querySelectorAll('mark.hl').forEach((m) => {
+    const p = m.parentNode;
+    p.replaceChild(root.ownerDocument.createTextNode(m.textContent), m);
+    p.normalize();
+  });
+}
+
+// Wraps every occurrence of `needle` (lowercase) in the row's text nodes in <mark class="hl">.
+// Text is only ever inserted as text nodes / textContent, never as HTML.
+function highlightRow(row, needle) {
+  const doc = row.ownerDocument;
+  const walker = doc.createTreeWalker(row, 4 /* NodeFilter.SHOW_TEXT */);
+  const nodes = [];
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) nodes.push(n);
+  for (const node of nodes) {
+    const text = node.nodeValue;
+    const low = text.toLowerCase();
+    let i = low.indexOf(needle);
+    if (i === -1) continue;
+    const frag = doc.createDocumentFragment();
+    let last = 0;
+    while (i !== -1) {
+      frag.appendChild(doc.createTextNode(text.slice(last, i)));
+      const m = doc.createElement('mark');
+      m.className = 'hl';
+      m.textContent = text.slice(i, i + needle.length);
+      frag.appendChild(m);
+      last = i + needle.length;
+      i = low.indexOf(needle, last);
+    }
+    frag.appendChild(doc.createTextNode(text.slice(last)));
+    node.parentNode.replaceChild(frag, node);
+  }
+}
+
+function applyFilter(root) {
+  const input = root.querySelector('#comp-filter');
+  if (!input) return;
+  const q = input.value.trim();
+  const needle = q.toLowerCase();
+  const filtering = needle.length > 0;
+  const groups = [...root.querySelectorAll('details.group')];
+
+  // Remember which groups were open when the filtering starts; restore them when it ends.
+  if (filtering && !root.dataset.filterActive) {
+    groups.forEach((g) => { g.dataset.wasOpen = g.open ? '1' : '0'; });
+    root.dataset.filterActive = '1';
+  }
+  clearHighlights(root);
+
+  let shown = 0;
+  let total = 0;
+  for (const g of groups) {
+    const rows = [...g.querySelectorAll('tbody tr')];
+    let hits = 0;
+    for (const r of rows) {
+      total++;
+      const hit = !filtering || r.textContent.toLowerCase().includes(needle);
+      r.hidden = !hit;
+      if (hit) { hits++; shown++; if (filtering) highlightRow(r, needle); }
+    }
+    g.hidden = filtering && hits === 0;
+    if (filtering && hits > 0) g.open = true;
+    const cnt = g.querySelector('summary .count');
+    if (cnt) cnt.textContent = filtering ? `(${hits} of ${rows.length})` : `(${rows.length})`;
+  }
+  if (!filtering && root.dataset.filterActive) {
+    groups.forEach((g) => { g.open = g.dataset.wasOpen === '1'; });
+    delete root.dataset.filterActive;
+  }
+
+  const count = root.querySelector('[data-filter-count]');
+  if (count) count.innerHTML = filtering ? `<strong>${shown}</strong> of ${plural(total)}` : plural(total);
+  const clear = root.querySelector('.filter-clear');
+  const kbd = root.querySelector('.kbd');
+  if (clear) clear.hidden = !filtering;
+  if (kbd) kbd.hidden = filtering;
+
+  const empty = root.querySelector('[data-filter-empty]');
+  if (empty) {
+    empty.hidden = !(filtering && shown === 0);
+    const qq = empty.querySelector('[data-q]');
+    if (qq) qq.textContent = q;
+  }
+  const note = root.querySelector('[data-filter-note]');
+  if (note) {
+    note.hidden = !(filtering && shown > 0 && shown < total);
+    const n = note.querySelector('[data-n]');
+    if (n) n.textContent = String(total - shown);
+    const w = note.querySelector('[data-w]');
+    if (w) w.textContent = total - shown === 1 ? 'component is' : 'components are';
+  }
+}
+
+function clearFilter(root, refocus) {
+  const input = root.querySelector('#comp-filter');
+  if (!input) return;
+  input.value = '';
+  applyFilter(root);
+  if (refocus) input.focus();
+}
+
+// Makes the buttons and the filter of a rendered detail work.
+// Call once with the element that holds the rendered detail (it survives re-renders).
 export function bindDetailInteractions(root) {
   root.addEventListener('click', (ev) => {
-    const b = ev.target.closest('[data-toggle-all]');
-    if (!b) return;
-    const open = b.dataset.toggleAll === 'open';
-    root.querySelectorAll('details.group').forEach((d) => { d.open = open; });
+    const toggle = ev.target.closest('[data-toggle-all]');
+    if (toggle) {
+      const open = toggle.dataset.toggleAll === 'open';
+      root.querySelectorAll('details.group:not([hidden])').forEach((d) => { d.open = open; });
+      return;
+    }
+    if (ev.target.closest('[data-clear-filter]')) clearFilter(root, true);
+  });
+  root.addEventListener('input', (ev) => {
+    if (ev.target.id === 'comp-filter') applyFilter(root);
+  });
+  // Esc first empties the filter; only a second Esc reaches the modal (which closes it).
+  root.addEventListener('keydown', (ev) => {
+    if (ev.target.id === 'comp-filter' && ev.key === 'Escape' && ev.target.value) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      clearFilter(root, false);
+    }
+  });
+  // "/" jumps into the filter, unless the user is typing somewhere already.
+  root.ownerDocument.addEventListener('keydown', (ev) => {
+    if (ev.key !== '/' || ev.ctrlKey || ev.metaKey || ev.altKey) return;
+    const input = root.querySelector('#comp-filter');
+    const active = root.ownerDocument.activeElement;
+    if (!input || active === input) return;
+    if (active && ['INPUT', 'TEXTAREA', 'SELECT'].includes(active.tagName)) return;
+    ev.preventDefault();
+    input.focus();
   });
 }
 
@@ -154,10 +288,24 @@ export function renderDetailBody(e) {
   if (c.changed.length) {
     const groups = groupByPage(c.changed);
     const openAll = c.changed.length <= OPEN_ALL_UP_TO;
-    h.push('<div class="section-head"><h2>Changes per component</h2>' + (groups.length > 1
-      ? '<div class="group-controls"><button type="button" data-toggle-all="open">Expand all</button><button type="button" data-toggle-all="close">Collapse all</button></div>'
-      : '') + '</div>');
+    h.push('<h2>Changes per component</h2>');
     h.push(`<p class="note">Names are the new names from the branch. ${esc(linkNote(e))} “Was” shows the old name when the component was renamed.</p>`);
+    // Filter + counter + expand/collapse in one bar that stays visible while the list scrolls.
+    const totalRows = c.changed.length;
+    h.push(
+      '<div class="filter-bar">' +
+        '<div class="filter-field">' +
+          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>' +
+          '<label class="sr-only" for="comp-filter">Filter components</label>' +
+          '<input id="comp-filter" type="text" autocomplete="off" spellcheck="false" placeholder="Filter components, properties or values…">' +
+          '<span class="kbd" aria-hidden="true">/</span>' +
+          '<button type="button" class="filter-clear" data-clear-filter aria-label="Clear filter" hidden>×</button>' +
+        '</div>' +
+        '<div class="filter-meta">' +
+          `<span class="filter-count" data-filter-count aria-live="polite">${totalRows} component${totalRows === 1 ? '' : 's'}</span>` +
+          (groups.length > 1 ? '<button type="button" data-toggle-all="open">Expand all</button><button type="button" data-toggle-all="close">Collapse all</button>' : '') +
+        '</div>' +
+      '</div>');
     for (const grp of groups) {
       const rows = table(['Component', 'Was', 'Changes'], grp.items.map((x) => {
         const d = describeComponent(x);
@@ -165,6 +313,10 @@ export function renderDetailBody(e) {
       }), [42, 20, 38]);
       h.push(`<details class="group"${openAll ? ' open' : ''}><summary><span class="g-name">${esc(grp.page)}</span> <span class="count">(${grp.items.length})</span></summary>${rows}</details>`);
     }
+    h.push('<div class="filter-empty" data-filter-empty hidden><p class="t">No components match “<span data-q></span>”.</p>' +
+      '<p class="s">The filter looks at component names, old names, property names and values.</p>' +
+      '<button type="button" data-clear-filter>Clear filter</button></div>');
+    h.push('<p class="filter-note" data-filter-note hidden><span data-n></span> <span data-w></span> hidden by the filter. <button type="button" class="linklike" data-clear-filter>Clear filter</button></p>');
   }
 
   h.push(`<div class="scope"><strong>Scope of this comparison.</strong> ${esc(SCOPE_TEXT)}</div>`);
