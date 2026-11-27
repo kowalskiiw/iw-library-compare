@@ -1191,90 +1191,14 @@
     "properties": [],
     "values": []
   },
-  "status": "in-review",
+  "status": "merged",
   "statusInfo": {
-    "checkedAt": "2026-11-26T14:17:33.497Z",
-    "librarySnapshotAt": "2026-11-26T14:05:23.605Z",
-    "done": 0,
+    "checkedAt": "2026-11-27T06:32:50.946Z",
+    "librarySnapshotAt": "2026-11-27T06:32:33.344Z",
+    "done": 61,
     "total": 61,
-    "pendingCount": 61,
-    "pending": [
-      {
-        "kind": "component",
-        "id": "12677:3620",
-        "name": ".Bet Indicator"
-      },
-      {
-        "kind": "component",
-        "id": "16809:11655",
-        "name": ".Casino/Mobile/Medium/InfoTeaser"
-      },
-      {
-        "kind": "component",
-        "id": "5373:2751",
-        "name": ".Documentation component"
-      },
-      {
-        "kind": "component",
-        "id": "8724:5083",
-        "name": ".Documentation crosslinks"
-      },
-      {
-        "kind": "component",
-        "id": "10424:12651",
-        "name": ".Header Base/Default - Menubar - Menu Items"
-      },
-      {
-        "kind": "component",
-        "id": "5372:2646",
-        "name": ".Helpers/Design-System-Sidebar"
-      },
-      {
-        "kind": "component",
-        "id": "12517:22989",
-        "name": ".Slider Control/Casino"
-      },
-      {
-        "kind": "component",
-        "id": "16809:12322",
-        "name": ".Teaser/Desktop 4k/Big/InfoTeaser"
-      },
-      {
-        "kind": "component",
-        "id": "23030:16969",
-        "name": ".Teaser/Desktop 4k/Big/LiveInfoTeaser"
-      },
-      {
-        "kind": "component",
-        "id": "16809:12363",
-        "name": ".Teaser/Desktop 4k/Medium/InfoTeaser"
-      },
-      {
-        "kind": "component",
-        "id": "16804:13911",
-        "name": ".Teaser/Desktop/Big/InfoTeaser"
-      },
-      {
-        "kind": "component",
-        "id": "16804:14227",
-        "name": ".Teaser/Desktop/Medium/InfoTeaser"
-      },
-      {
-        "kind": "component",
-        "id": "23030:16869",
-        "name": ".Teaser/Desktop/Medium/LiveInfoTeaser"
-      },
-      {
-        "kind": "component",
-        "id": "16809:11612",
-        "name": ".Teaser/Mobile/Big/InfoTeaser"
-      },
-      {
-        "kind": "component",
-        "id": "23030:16916",
-        "name": ".Teaser/Mobile/Medium/LiveInfoTeasers"
-      }
-    ],
-    "mergedAt": null
+    "pendingCount": 0,
+    "pending": [],
+    "mergedAt": "2026-11-27T06:32:50.946Z"
   }
 }
