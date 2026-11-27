@@ -49,7 +49,7 @@ export function buildStorage(entry, { siteUrl } = {}) {
   meta.push(link(libraryUrl(url), 'Figma library'));
   meta.push(link(url, 'Figma branch'));
   if (entry.ticket) meta.push(entry.ticket.url ? link(entry.ticket.url, entry.ticket.key) : esc(entry.ticket.key));
-  if (siteUrl) meta.push(link(`${siteUrl.replace(/\/$/, '')}/detail.html?id=${encodeURIComponent(entry.id)}`, 'Changelog entry'));
+  if (siteUrl) meta.push(link(`${siteUrl.replace(/\/$/, '')}/#${encodeURIComponent(entry.id)}`, 'Changelog entry'));
   const sl = statusLines(entry);
   const statusHtml = `<p>${statusMacro(entry)} ${esc(sl[0])}</p>` + sl.slice(1).map((t) => `<p>${esc(t)}</p>`).join('');
   out.push(macro('info', statusHtml + headlineText(entry).map((t) => `<p>${esc(t)}</p>`).join('') + `<p>${meta.join(' · ')}</p>`));
