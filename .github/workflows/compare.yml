@@ -18,6 +18,10 @@ on:
         description: 'Re-check the merge status of all open entries'
         type: boolean
         default: false
+      republish:
+        description: 'Rebuild the Confluence pages of all entries from the stored data (e.g. after a title or wording change)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -50,6 +54,7 @@ jobs:
           SITE_URL: ${{ vars.SITE_URL }}
           SNAPSHOT_INPUT: ${{ github.event.inputs.snapshot }}
           RECHECK: ${{ github.event.inputs.recheck }}
+          REPUBLISH: ${{ github.event.inputs.republish }}
         run: node scripts/run-comparison.js
 
       # Also runs when the step above failed (e.g. Confluence), so the entry data is not lost.
