@@ -18,7 +18,169 @@ const parseVariantName = (name) =>
 const idOf = (k) => { const i = k.lastIndexOf('#'); return i === -1 ? null : k.slice(i + 1); };
 const baseOf = (k) => { const i = k.lastIndexOf('#'); return i === -1 ? k : k.slice(0, i); };
 
-function diffComponent(id, a, b) {
+// ── appearance details ───────────────────────────────────────────────────────
+// Snapshot schema 2 stores, per variant, one record per layer (see plugin/code.js). When both snapshots
+// have them, we can say WHAT changed in a variant, not just that its fingerprint differs.
+
+const F = { ID: 0, PARENT: 1, NAME: 2, TYPE: 3, FILL: 4, STROKE: 5, RADIUS: 6, EFFECT: 7, LAYOUT: 8, SPACING: 9, PADDING: 10, SIZE: 11, TEXT: 12, CONTENT: 13, MISC: 14 };
+const NODE_PROPS = [['fill', F.FILL], ['stroke', F.STROKE], ['radius', F.RADIUS], ['effect', F.EFFECT], ['layout', F.LAYOUT],
+  ['spacing', F.SPACING], ['padding', F.PADDING], ['size', F.SIZE], ['text', F.TEXT], ['content', F.CONTENT]];
+const PROP_ORDER = ['name', 'fill', 'stroke', 'radius', 'effect', 'layout', 'spacing', 'padding', 'size', 'text', 'content',
+  'opacity', 'visibility', 'instance'];
+const MAX_APPEARANCE_LINES = 40;  // kept per component in the entry
+const MAX_NAMES_PER_LINE = 12;    // variant names kept per line
+
+const str = (snap, i) => (snap.strings && snap.strings[i]) || '';
+const hasDetails = (snap, nodes) => Array.isArray(nodes) && Array.isArray(snap.strings);
+
+function parseMisc(s) {
+  const o = {};
+  if (s) s.split(';').forEach((kv) => { const i = kv.indexOf('='); if (i > 0) o[kv.slice(0, i)] = kv.slice(i + 1); });
+  return o;
+}
+
+function parseNodes(snap, nodes) {
+  return nodes.map((r) => ({
+    id: r[F.ID], parent: r[F.PARENT], name: str(snap, r[F.NAME]), type: str(snap, r[F.TYPE]),
+    p: Object.fromEntries(NODE_PROPS.map(([k, i]) => [k, str(snap, r[i])])),
+    misc: parseMisc(str(snap, r[F.MISC])),
+  }));
+}
+
+// Styles and variables are stored as ids; their names (and, for colors, their values) come from the
+// tables of the snapshot being read — so a renamed style is not a change to the layers that use it,
+// but a layer that points to a different style is, and both styles are shown with their colors.
+function styleLabel(snap, id) {
+  const st = (snap.styles || {})[id];
+  if (!st) return '(external style)';
+  return st.t === 'paint' && st.v && st.v !== 'none' ? `${st.n} (${st.v})` : st.n;
+}
+function variableLabel(snap, id) {
+  const v = (snap.variables || {})[id];
+  if (!v) return '(external variable)';
+  const first = v.v && Object.values(v.v)[0];
+  return `${v.c} / ${v.n}` + (v.t === 'COLOR' && first && /^#[0-9A-Fa-f]{6}/.test(first) ? ` (${first})` : '');
+}
+function refLabel(snap, tok) {
+  if (tok.startsWith('s=')) return styleLabel(snap, tok.slice(2));
+  if (tok.startsWith('v=')) return variableLabel(snap, tok.slice(2));
+  const m = /^(#[0-9A-Fa-f]{6})@([\d.]+)$/.exec(tok);
+  if (m) return `${m[1]} (${Math.round(parseFloat(m[2]) * 100)}%)`;
+  return tok;
+}
+const refs = (snap, s) => s.split('+').map((t) => refLabel(snap, t)).join(' + ');
+const compName = (snap, id) => (((snap.components || {})[id] || {}).n) || '(component)';
+
+function valueLabel(prop, raw, snap) {
+  if (raw === '' || raw === undefined) return '—';
+  switch (prop) {
+    case 'fill': case 'effect': return refs(snap, raw);
+    case 'stroke': {
+      const [paint, w] = raw.split(';w=');
+      const p = paint ? refs(snap, paint) : 'none';
+      return w ? `${p}, ${w}${w.includes(',') ? ' (top,right,bottom,left)' : 'px'}` : p;
+    }
+    case 'text': return raw.startsWith('s=') ? refLabel(snap, raw) : raw;
+    case 'content': return raw.startsWith('v=') ? refLabel(snap, raw) : `“${raw}”`;
+    case 'radius': case 'spacing': case 'padding':
+      return raw.split(/([ ,])/).map((t) => (t.startsWith('v=') ? variableLabel(snap, t.slice(2)) : t)).join('');
+    default: return raw;
+  }
+}
+
+function layerPath(list, i, snap) {
+  const parts = [];
+  for (let k = i; k >= 0 && list[k].parent !== -1; k = list[k].parent) {
+    const n = list[k];
+    parts.unshift(n.type === 'INSTANCE' ? '↳ ' + compName(snap, n.misc.c) : (n.name || n.type.toLowerCase()));
+  }
+  return parts.length ? parts.join(' › ') : '(variant)';
+}
+
+function miscChanges(an, bn, L, B) {
+  const out = [];
+  const keys = new Set([...Object.keys(an.misc), ...Object.keys(bn.misc)]);
+  for (const k of keys) {
+    const x = an.misc[k];
+    const y = bn.misc[k];
+    if (x === y) continue;
+    if (k === 'opacity') out.push({ prop: 'opacity', from: x === undefined ? '100%' : Math.round(parseFloat(x) * 100) + '%', to: y === undefined ? '100%' : Math.round(parseFloat(y) * 100) + '%' });
+    else if (k === 'hidden') out.push({ prop: 'visibility', from: x ? 'Hidden' : 'Visible', to: y ? 'Hidden' : 'Visible' });
+    else if (k === 'c') out.push({ prop: 'instance', from: x ? compName(L, x) : '—', to: y ? compName(B, y) : '—' });
+    else if (k.startsWith('b:')) out.push({ prop: 'binding:' + k.slice(2), from: x ? variableLabel(L, x) : '—', to: y ? variableLabel(B, y) : '—' });
+  }
+  return out;
+}
+
+// All differences between one variant in the library and the same variant in the branch.
+// Returns null when the layers can't be matched up (most ids differ), so we don't print noise.
+function diffVariantDetails(aRaw, bRaw, L, B) {
+  const A = parseNodes(L, aRaw);
+  const Bn = parseNodes(B, bRaw);
+  const aIdx = new Map(A.map((n, i) => [n.id, i]));
+  const bIdx = new Map(Bn.map((n, i) => [n.id, i]));
+  let matched = 0;
+  const changes = [];
+
+  Bn.forEach((bn, bi) => {
+    const ai = aIdx.get(bn.id);
+    if (ai === undefined) return;
+    matched++;
+    const an = A[ai];
+    const layer = layerPath(Bn, bi, B);
+    if (bn.parent !== -1 && bn.type !== 'INSTANCE' && an.name !== bn.name) changes.push({ layer, prop: 'name', from: an.name || '—', to: bn.name || '—' });
+    for (const [prop] of NODE_PROPS) {
+      if (an.p[prop] !== bn.p[prop]) {
+        let from = valueLabel(prop, an.p[prop], L);
+        const to = valueLabel(prop, bn.p[prop], B);
+        if (from === to) from = `${from} (other)`;   // two different styles with the same name and value
+        changes.push({ layer, prop, from, to });
+      }
+    }
+    miscChanges(an, bn, L, B).forEach((m) => changes.push({ layer, ...m }));
+  });
+
+  const total = Math.max(A.length, Bn.length);
+  if (total > 4 && (total - matched) / total > 0.5) return null;
+
+  // Layers added / removed — only the topmost of an added or removed subtree
+  Bn.forEach((bn, bi) => {
+    if (aIdx.has(bn.id) || bn.parent === -1) return;
+    if (!aIdx.has(Bn[bn.parent].id)) return;
+    changes.push({ layer: layerPath(Bn, bi, B), prop: 'layer-added', from: '', to: bn.type.toLowerCase() });
+  });
+  A.forEach((an, ai) => {
+    if (bIdx.has(an.id) || an.parent === -1) return;
+    if (!bIdx.has(A[an.parent].id)) return;
+    changes.push({ layer: layerPath(A, ai, L), prop: 'layer-removed', from: an.type.toLowerCase(), to: '' });
+  });
+  return changes;
+}
+
+const shortVariant = (name) => parseVariantName(name).map(([, v]) => v).filter(Boolean).join(' · ') || name;
+
+// Groups the same change across variants: "Fill of Label: A → B in 6 of 10 variants".
+function appearanceDetails(pairs, totalVariants, L, B) {
+  const groups = new Map();
+  let unexplained = 0;
+  for (const p of pairs) {
+    const ch = diffVariantDetails(p.aNodes, p.bNodes, L, B);
+    if (!ch || !ch.length) { unexplained++; continue; }
+    for (const c of ch) {
+      const key = [c.layer, c.prop, c.from, c.to].join(SEP);
+      if (!groups.has(key)) groups.set(key, { layer: c.layer, prop: c.prop, from: c.from, to: c.to, ids: new Set(), names: [] });
+      const g = groups.get(key);
+      if (!g.ids.has(p.vid)) { g.ids.add(p.vid); g.names.push(shortVariant(p.name)); }
+    }
+  }
+  const order = (p) => { const i = PROP_ORDER.indexOf(p); return i === -1 ? 50 : i; };
+  const lines = [...groups.values()]
+    .map((g) => ({ layer: g.layer, prop: g.prop, from: g.from, to: g.to, variants: g.ids.size, total: totalVariants, names: g.names.slice(0, MAX_NAMES_PER_LINE) }))
+    .sort((x, y) => y.variants - x.variants || order(x.prop) - order(y.prop) || x.layer.localeCompare(y.layer));
+  return { lines: lines.slice(0, MAX_APPEARANCE_LINES), more: Math.max(0, lines.length - MAX_APPEARANCE_LINES), unexplained };
+}
+
+function diffComponent(id, a, b, ctx) {
   const d = {
     id,
     page: b.pg,
@@ -42,6 +204,7 @@ function diffComponent(id, a, b) {
   const valRen = new Map();
   let common = 0;
   let changedVisual = 0;
+  const changedPairs = [];
 
   // 1) Variants matched by node id. The property order inside a variant name
   //    ("Type=Text, State=Default") is stable, so equal-length names are paired
@@ -50,7 +213,10 @@ function diffComponent(id, a, b) {
     const av = avs.get(vid);
     if (!av) { d.variantsAdded++; continue; }
     common++;
-    if (av[2] !== bv[2]) changedVisual++;
+    if (av[2] !== bv[2]) {
+      changedVisual++;
+      changedPairs.push({ vid, name: bv[1], aNodes: av[3], bNodes: bv[3] });
+    }
     if (av[1] !== bv[1]) {
       const ap = parseVariantName(av[1]);
       const bp = parseVariantName(bv[1]);
@@ -69,6 +235,16 @@ function diffComponent(id, a, b) {
     if (changedVisual) d.visual = { changed: changedVisual, total: common };
   } else if (a.vh !== b.vh) {
     d.visual = { changed: 1, total: 1 };
+    changedPairs.push({ vid: id, name: b.n, aNodes: a.nd, bNodes: b.nd });
+  }
+
+  // What changed inside those variants — only when both snapshots carry layer details.
+  if (d.visual && ctx && changedPairs.length && changedPairs.every((p) => hasDetails(ctx.L, p.aNodes) && hasDetails(ctx.B, p.bNodes))) {
+    const det = appearanceDetails(changedPairs, d.visual.total, ctx.L, ctx.B);
+    d.appearance = det.lines;
+    if (det.more) d.appearanceMore = det.more;
+    if (det.unexplained) d.appearanceUnexplained = det.unexplained;
+    d.appearanceVariants = changedPairs.map((p) => p.name);
   }
 
   const renameMap = {};
@@ -132,12 +308,12 @@ export function componentChanged(id, a, b) {
   return Boolean(isChanged(diffComponent(id, a, b)));
 }
 
-function diffComponents(L, B) {
+function diffComponents(L, B, ctx) {
   const added = [], removed = [], changed = [];
   for (const [id, b] of Object.entries(B)) {
     const a = L[id];
     if (!a) { added.push({ id, name: b.n, page: b.pg }); continue; }
-    const d = diffComponent(id, a, b);
+    const d = diffComponent(id, a, b, ctx);
     if (isChanged(d)) changed.push(d);
   }
   for (const [id, a] of Object.entries(L)) if (!B[id]) removed.push({ id, name: a.n, page: a.pg });
@@ -200,7 +376,7 @@ function diffPages(L = {}, B = {}) {
 }
 
 export function compareSnapshots(library, branch) {
-  const components = diffComponents(library.components || {}, branch.components || {});
+  const components = diffComponents(library.components || {}, branch.components || {}, { L: library, B: branch });
   const styles = diffStyles(library.styles || {}, branch.styles || {});
   const variables = diffVariables(library.variables || {}, branch.variables || {});
   const pages = diffPages(library.pages, branch.pages);
