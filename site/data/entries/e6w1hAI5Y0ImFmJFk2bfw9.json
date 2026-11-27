@@ -1,0 +1,1581 @@
+{
+  "id": "e6w1hAI5Y0ImFmJFk2bfw9",
+  "version": "v2026.11.27.21",
+  "title": "CXI-2135-Color-Variables",
+  "createdAt": "2026-11-27T13:39:54.483Z",
+  "updatedAt": "2026-11-27T13:39:54.483Z",
+  "branch": {
+    "url": "https://www.figma.com/design/e9id05pwA4x9x8DtJgwWXR/branch/e6w1hAI5Y0ImFmJFk2bfw9/IW-Design-Library",
+    "key": "e6w1hAI5Y0ImFmJFk2bfw9",
+    "fileName": "CXI-2135-Color-Variables",
+    "snapshotAt": "2026-11-27T13:39:38.141Z"
+  },
+  "library": {
+    "fileName": "IW Design Library",
+    "snapshotAt": "2026-11-27T12:57:59.948Z"
+  },
+  "ticket": {
+    "key": "CXI-2135",
+    "url": "https://interwetten.atlassian.net/browse/CXI-2135",
+    "summary": "DS-Color-Variables",
+    "type": "UX Task"
+  },
+  "confluence": {
+    "id": "3255566348",
+    "url": "https://interwetten.atlassian.net/wiki/spaces/CXI/pages/3255566348/v2026.11.27.21"
+  },
+  "summary": {
+    "components": {
+      "library": 802,
+      "branch": 802,
+      "added": 0,
+      "removed": 0,
+      "affected": 0,
+      "renamed": 0,
+      "propertyChanges": 0,
+      "visualChanges": 0,
+      "descriptionChanges": 0,
+      "moved": 0
+    },
+    "styles": {
+      "library": 236,
+      "branch": 236,
+      "added": 0,
+      "removed": 0,
+      "changed": 0,
+      "valueChanges": 0
+    },
+    "variables": {
+      "library": 104,
+      "branch": 259,
+      "added": 155,
+      "removed": 0,
+      "changed": 0,
+      "valueChanges": 0
+    },
+    "pages": {
+      "added": 0,
+      "removed": 0,
+      "renamed": 0
+    },
+    "namingOnly": false
+  },
+  "pages": {
+    "added": [],
+    "removed": [],
+    "renamed": []
+  },
+  "styles": {
+    "added": [],
+    "removed": [],
+    "changed": []
+  },
+  "variables": {
+    "added": [
+      {
+        "id": "VariableID:34682:8",
+        "collection": "Mode",
+        "name": "Border/Default",
+        "type": "COLOR",
+        "values": {
+          "Light": "→ Primitives / Grey/60",
+          "Dark": "→ Primitives / Grey/60"
+        }
+      },
+      {
+        "id": "VariableID:34682:9",
+        "collection": "Mode",
+        "name": "Border/Disabled",
+        "type": "COLOR",
+        "values": {
+          "Light": "→ Primitives / Grey/40",
+          "Dark": "→ Primitives / Grey/40"
+        }
+      },
+      {
+        "id": "VariableID:34682:10",
+        "collection": "Mode",
+        "name": "Border/Focus Ring",
+        "type": "COLOR",
+        "values": {
+          "Light": "→ Primitives / Blue/500",
+          "Dark": "→ Primitives / Blue/500"
+        }
+      },
+      {
+        "id": "VariableID:34682:12",
+        "collection": "Mode",
+        "name": "Status/Error",
+        "type": "COLOR",
+        "values": {
+          "Light": "→ Primitives / Red/600",
+          "Dark": "→ Primitives / Dark UI/Red/400"
+        }
+      },
+      {
+        "id": "VariableID:34682:11",
+        "collection": "Mode",
+        "name": "Status/Info",
+        "type": "COLOR",
+        "values": {
+          "Light": "→ Primitives / Blue/500",
+          "Dark": "→ Primitives / Dark UI/Blue/400"
+        }
+      },
+      {
+        "id": "VariableID:34682:14",
+        "collection": "Mode",
+        "name": "Status/Success",
+        "type": "COLOR",
+        "values": {
+          "Light": "→ Primitives / Green/600",
+          "Dark": "→ Primitives / Dark UI/Green/400"
+        }
+      },
+      {
+        "id": "VariableID:34682:13",
+        "collection": "Mode",
+        "name": "Status/Warning",
+        "type": "COLOR",
+        "values": {
+          "Light": "→ Primitives / Orange/500",
+          "Dark": "→ Primitives / Dark UI/Orange/500"
+        }
+      },
+      {
+        "id": "VariableID:34682:4",
+        "collection": "Mode",
+        "name": "Text/Default",
+        "type": "COLOR",
+        "values": {
+          "Light": "→ Primitives / Grey/800",
+          "Dark": "→ Primitives / Grey/800"
+        }
+      },
+      {
+        "id": "VariableID:34682:7",
+        "collection": "Mode",
+        "name": "Text/Disabled",
+        "type": "COLOR",
+        "values": {
+          "Light": "→ Primitives / Grey/40",
+          "Dark": "→ Primitives / Grey/40"
+        }
+      },
+      {
+        "id": "VariableID:34682:3",
+        "collection": "Mode",
+        "name": "Text/Label",
+        "type": "COLOR",
+        "values": {
+          "Light": "→ Primitives / Black",
+          "Dark": "→ Primitives / Black"
+        }
+      },
+      {
+        "id": "VariableID:34682:6",
+        "collection": "Mode",
+        "name": "Text/Placeholder",
+        "type": "COLOR",
+        "values": {
+          "Light": "→ Primitives / Grey/200",
+          "Dark": "→ Primitives / Grey/200"
+        }
+      },
+      {
+        "id": "VariableID:34682:5",
+        "collection": "Mode",
+        "name": "Text/Secondary",
+        "type": "COLOR",
+        "values": {
+          "Light": "→ Primitives / Grey/600",
+          "Dark": "→ Primitives / Grey/600"
+        }
+      },
+      {
+        "id": "VariableID:34662:3",
+        "collection": "Primitives",
+        "name": "Black",
+        "type": "COLOR",
+        "values": {
+          "Default": "#000000"
+        }
+      },
+      {
+        "id": "VariableID:34662:58",
+        "collection": "Primitives",
+        "name": "Blue/100",
+        "type": "COLOR",
+        "values": {
+          "Default": "#E9F4FF"
+        }
+      },
+      {
+        "id": "VariableID:34662:57",
+        "collection": "Primitives",
+        "name": "Blue/150",
+        "type": "COLOR",
+        "values": {
+          "Default": "#D6EAFF"
+        }
+      },
+      {
+        "id": "VariableID:34662:56",
+        "collection": "Primitives",
+        "name": "Blue/200",
+        "type": "COLOR",
+        "values": {
+          "Default": "#C7E4FF"
+        }
+      },
+      {
+        "id": "VariableID:34662:55",
+        "collection": "Primitives",
+        "name": "Blue/300",
+        "type": "COLOR",
+        "values": {
+          "Default": "#A7D5FF"
+        }
+      },
+      {
+        "id": "VariableID:34662:43",
+        "collection": "Primitives",
+        "name": "Blue/350",
+        "type": "COLOR",
+        "values": {
+          "Default": "#81C2FF"
+        }
+      },
+      {
+        "id": "VariableID:34662:42",
+        "collection": "Primitives",
+        "name": "Blue/400",
+        "type": "COLOR",
+        "values": {
+          "Default": "#53ACFF"
+        }
+      },
+      {
+        "id": "VariableID:34662:109",
+        "collection": "Primitives",
+        "name": "Blue/50",
+        "type": "COLOR",
+        "values": {
+          "Default": "#F1F8FF"
+        }
+      },
+      {
+        "id": "VariableID:34662:41",
+        "collection": "Primitives",
+        "name": "Blue/500",
+        "type": "COLOR",
+        "values": {
+          "Default": "#2194FF"
+        }
+      },
+      {
+        "id": "VariableID:34662:40",
+        "collection": "Primitives",
+        "name": "Blue/600",
+        "type": "COLOR",
+        "values": {
+          "Default": "#1575CF"
+        }
+      },
+      {
+        "id": "VariableID:34662:39",
+        "collection": "Primitives",
+        "name": "Blue/700",
+        "type": "COLOR",
+        "values": {
+          "Default": "#145999"
+        }
+      },
+      {
+        "id": "VariableID:34662:38",
+        "collection": "Primitives",
+        "name": "Blue/800",
+        "type": "COLOR",
+        "values": {
+          "Default": "#0D3B66"
+        }
+      },
+      {
+        "id": "VariableID:34662:37",
+        "collection": "Primitives",
+        "name": "Blue/900",
+        "type": "COLOR",
+        "values": {
+          "Default": "#001A33"
+        }
+      },
+      {
+        "id": "VariableID:34662:103",
+        "collection": "Primitives",
+        "name": "Dark UI/Blue/400",
+        "type": "COLOR",
+        "values": {
+          "Default": "#91D1FF"
+        }
+      },
+      {
+        "id": "VariableID:34662:69",
+        "collection": "Primitives",
+        "name": "Dark UI/Blue/500",
+        "type": "COLOR",
+        "values": {
+          "Default": "#78B9FF"
+        }
+      },
+      {
+        "id": "VariableID:34662:68",
+        "collection": "Primitives",
+        "name": "Dark UI/Blue/800",
+        "type": "COLOR",
+        "values": {
+          "Default": "#2E3D4D"
+        }
+      },
+      {
+        "id": "VariableID:34662:63",
+        "collection": "Primitives",
+        "name": "Dark UI/Green/400",
+        "type": "COLOR",
+        "values": {
+          "Default": "#94FFAC"
+        }
+      },
+      {
+        "id": "VariableID:34662:62",
+        "collection": "Primitives",
+        "name": "Dark UI/Green/500",
+        "type": "COLOR",
+        "values": {
+          "Default": "#66CE7E"
+        }
+      },
+      {
+        "id": "VariableID:34662:61",
+        "collection": "Primitives",
+        "name": "Dark UI/Green/600",
+        "type": "COLOR",
+        "values": {
+          "Default": "#3F734B"
+        }
+      },
+      {
+        "id": "VariableID:34662:60",
+        "collection": "Primitives",
+        "name": "Dark UI/Green/700",
+        "type": "COLOR",
+        "values": {
+          "Default": "#374A3B"
+        }
+      },
+      {
+        "id": "VariableID:34662:59",
+        "collection": "Primitives",
+        "name": "Dark UI/Green/800",
+        "type": "COLOR",
+        "values": {
+          "Default": "#2D3D31"
+        }
+      },
+      {
+        "id": "VariableID:34662:74",
+        "collection": "Primitives",
+        "name": "Dark UI/Lime Green/500",
+        "type": "COLOR",
+        "values": {
+          "Default": "#D9F476"
+        }
+      },
+      {
+        "id": "VariableID:34662:73",
+        "collection": "Primitives",
+        "name": "Dark UI/Lime Green/600",
+        "type": "COLOR",
+        "values": {
+          "Default": "#608012"
+        }
+      },
+      {
+        "id": "VariableID:34662:72",
+        "collection": "Primitives",
+        "name": "Dark UI/Lime Green/700",
+        "type": "COLOR",
+        "values": {
+          "Default": "#455912"
+        }
+      },
+      {
+        "id": "VariableID:34662:71",
+        "collection": "Primitives",
+        "name": "Dark UI/Lime Green/800",
+        "type": "COLOR",
+        "values": {
+          "Default": "#374515"
+        }
+      },
+      {
+        "id": "VariableID:34662:70",
+        "collection": "Primitives",
+        "name": "Dark UI/Lime Green/900",
+        "type": "COLOR",
+        "values": {
+          "Default": "#1F2611"
+        }
+      },
+      {
+        "id": "VariableID:34662:67",
+        "collection": "Primitives",
+        "name": "Dark UI/Orange/500",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFBA61"
+        }
+      },
+      {
+        "id": "VariableID:34662:66",
+        "collection": "Primitives",
+        "name": "Dark UI/Orange/800",
+        "type": "COLOR",
+        "values": {
+          "Default": "#473E32"
+        }
+      },
+      {
+        "id": "VariableID:34662:102",
+        "collection": "Primitives",
+        "name": "Dark UI/Red/400",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FE9898"
+        }
+      },
+      {
+        "id": "VariableID:34662:101",
+        "collection": "Primitives",
+        "name": "Dark UI/Red/600",
+        "type": "COLOR",
+        "values": {
+          "Default": "#814444"
+        }
+      },
+      {
+        "id": "VariableID:34662:65",
+        "collection": "Primitives",
+        "name": "Dark UI/Red/700",
+        "type": "COLOR",
+        "values": {
+          "Default": "#4F3B3B"
+        }
+      },
+      {
+        "id": "VariableID:34662:64",
+        "collection": "Primitives",
+        "name": "Dark UI/Red/800",
+        "type": "COLOR",
+        "values": {
+          "Default": "#473434"
+        }
+      },
+      {
+        "id": "VariableID:34662:153",
+        "collection": "Primitives",
+        "name": "Footer Greece/800",
+        "type": "COLOR",
+        "values": {
+          "Default": "#1A3362"
+        }
+      },
+      {
+        "id": "VariableID:34662:100",
+        "collection": "Primitives",
+        "name": "Gamecards/Concrete",
+        "type": "COLOR",
+        "values": {
+          "Default": "#585F60"
+        }
+      },
+      {
+        "id": "VariableID:34662:95",
+        "collection": "Primitives",
+        "name": "Gamecards/Gras",
+        "type": "COLOR",
+        "values": {
+          "Default": "#006837"
+        }
+      },
+      {
+        "id": "VariableID:34662:96",
+        "collection": "Primitives",
+        "name": "Gamecards/Ice",
+        "type": "COLOR",
+        "values": {
+          "Default": "#567A8D"
+        }
+      },
+      {
+        "id": "VariableID:34662:97",
+        "collection": "Primitives",
+        "name": "Gamecards/Plastic",
+        "type": "COLOR",
+        "values": {
+          "Default": "#A6653C"
+        }
+      },
+      {
+        "id": "VariableID:34662:98",
+        "collection": "Primitives",
+        "name": "Gamecards/Sand",
+        "type": "COLOR",
+        "values": {
+          "Default": "#AF511F"
+        }
+      },
+      {
+        "id": "VariableID:34662:99",
+        "collection": "Primitives",
+        "name": "Gamecards/Water",
+        "type": "COLOR",
+        "values": {
+          "Default": "#005366"
+        }
+      },
+      {
+        "id": "VariableID:34662:105",
+        "collection": "Primitives",
+        "name": "Green/100",
+        "type": "COLOR",
+        "values": {
+          "Default": "#E5F7EA"
+        }
+      },
+      {
+        "id": "VariableID:34662:53",
+        "collection": "Primitives",
+        "name": "Green/150",
+        "type": "COLOR",
+        "values": {
+          "Default": "#DBF2E0"
+        }
+      },
+      {
+        "id": "VariableID:34662:17",
+        "collection": "Primitives",
+        "name": "Green/200",
+        "type": "COLOR",
+        "values": {
+          "Default": "#C5EFCE"
+        }
+      },
+      {
+        "id": "VariableID:34662:16",
+        "collection": "Primitives",
+        "name": "Green/300",
+        "type": "COLOR",
+        "values": {
+          "Default": "#A4E6B3"
+        }
+      },
+      {
+        "id": "VariableID:34662:15",
+        "collection": "Primitives",
+        "name": "Green/350",
+        "type": "COLOR",
+        "values": {
+          "Default": "#7CDB91"
+        }
+      },
+      {
+        "id": "VariableID:34662:14",
+        "collection": "Primitives",
+        "name": "Green/400",
+        "type": "COLOR",
+        "values": {
+          "Default": "#4DCE69"
+        }
+      },
+      {
+        "id": "VariableID:34662:106",
+        "collection": "Primitives",
+        "name": "Green/50",
+        "type": "COLOR",
+        "values": {
+          "Default": "#F0FBF3"
+        }
+      },
+      {
+        "id": "VariableID:34662:13",
+        "collection": "Primitives",
+        "name": "Green/500",
+        "type": "COLOR",
+        "values": {
+          "Default": "#2EA949"
+        }
+      },
+      {
+        "id": "VariableID:34662:12",
+        "collection": "Primitives",
+        "name": "Green/600",
+        "type": "COLOR",
+        "values": {
+          "Default": "#25873A"
+        }
+      },
+      {
+        "id": "VariableID:34662:11",
+        "collection": "Primitives",
+        "name": "Green/700",
+        "type": "COLOR",
+        "values": {
+          "Default": "#1C652C"
+        }
+      },
+      {
+        "id": "VariableID:34662:10",
+        "collection": "Primitives",
+        "name": "Green/800",
+        "type": "COLOR",
+        "values": {
+          "Default": "#12441D"
+        }
+      },
+      {
+        "id": "VariableID:34662:9",
+        "collection": "Primitives",
+        "name": "Green/900",
+        "type": "COLOR",
+        "values": {
+          "Default": "#0B2811"
+        }
+      },
+      {
+        "id": "VariableID:34662:88",
+        "collection": "Primitives",
+        "name": "Grey Alpha/20",
+        "type": "COLOR",
+        "values": {
+          "Default": "#000000 (20%)"
+        }
+      },
+      {
+        "id": "VariableID:34662:87",
+        "collection": "Primitives",
+        "name": "Grey Alpha/30",
+        "type": "COLOR",
+        "values": {
+          "Default": "#000000 (30%)"
+        }
+      },
+      {
+        "id": "VariableID:34662:86",
+        "collection": "Primitives",
+        "name": "Grey Alpha/50",
+        "type": "COLOR",
+        "values": {
+          "Default": "#000000 (50%)"
+        }
+      },
+      {
+        "id": "VariableID:34662:104",
+        "collection": "Primitives",
+        "name": "Grey/05",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FBFBFB"
+        }
+      },
+      {
+        "id": "VariableID:34662:85",
+        "collection": "Primitives",
+        "name": "Grey/10",
+        "type": "COLOR",
+        "values": {
+          "Default": "#F3F3F3"
+        }
+      },
+      {
+        "id": "VariableID:34662:79",
+        "collection": "Primitives",
+        "name": "Grey/100",
+        "type": "COLOR",
+        "values": {
+          "Default": "#A3A3A3"
+        }
+      },
+      {
+        "id": "VariableID:34662:84",
+        "collection": "Primitives",
+        "name": "Grey/15",
+        "type": "COLOR",
+        "values": {
+          "Default": "#EDEDED"
+        }
+      },
+      {
+        "id": "VariableID:34662:83",
+        "collection": "Primitives",
+        "name": "Grey/20",
+        "type": "COLOR",
+        "values": {
+          "Default": "#E3E3E3"
+        }
+      },
+      {
+        "id": "VariableID:34662:78",
+        "collection": "Primitives",
+        "name": "Grey/200",
+        "type": "COLOR",
+        "values": {
+          "Default": "#939393"
+        }
+      },
+      {
+        "id": "VariableID:34662:82",
+        "collection": "Primitives",
+        "name": "Grey/40",
+        "type": "COLOR",
+        "values": {
+          "Default": "#D3D3D3"
+        }
+      },
+      {
+        "id": "VariableID:34662:76",
+        "collection": "Primitives",
+        "name": "Grey/400",
+        "type": "COLOR",
+        "values": {
+          "Default": "#737373"
+        }
+      },
+      {
+        "id": "VariableID:34662:81",
+        "collection": "Primitives",
+        "name": "Grey/60",
+        "type": "COLOR",
+        "values": {
+          "Default": "#C3C3C3"
+        }
+      },
+      {
+        "id": "VariableID:34662:8",
+        "collection": "Primitives",
+        "name": "Grey/600",
+        "type": "COLOR",
+        "values": {
+          "Default": "#535353"
+        }
+      },
+      {
+        "id": "VariableID:34662:6",
+        "collection": "Primitives",
+        "name": "Grey/800",
+        "type": "COLOR",
+        "values": {
+          "Default": "#333333"
+        }
+      },
+      {
+        "id": "VariableID:34662:5",
+        "collection": "Primitives",
+        "name": "Grey/900",
+        "type": "COLOR",
+        "values": {
+          "Default": "#232323"
+        }
+      },
+      {
+        "id": "VariableID:34662:115",
+        "collection": "Primitives",
+        "name": "Lime Green/100",
+        "type": "COLOR",
+        "values": {
+          "Default": "#F7FCEA"
+        }
+      },
+      {
+        "id": "VariableID:34662:114",
+        "collection": "Primitives",
+        "name": "Lime Green/150",
+        "type": "COLOR",
+        "values": {
+          "Default": "#F0FADA"
+        }
+      },
+      {
+        "id": "VariableID:34662:113",
+        "collection": "Primitives",
+        "name": "Lime Green/200",
+        "type": "COLOR",
+        "values": {
+          "Default": "#E8F7C5"
+        }
+      },
+      {
+        "id": "VariableID:34662:112",
+        "collection": "Primitives",
+        "name": "Lime Green/300",
+        "type": "COLOR",
+        "values": {
+          "Default": "#DEF4AB"
+        }
+      },
+      {
+        "id": "VariableID:35405:13527",
+        "collection": "Primitives",
+        "name": "Lime Green/350",
+        "type": "COLOR",
+        "values": {
+          "Default": "#D8F29C"
+        }
+      },
+      {
+        "id": "VariableID:34662:111",
+        "collection": "Primitives",
+        "name": "Lime Green/400",
+        "type": "COLOR",
+        "values": {
+          "Default": "#D2F08D"
+        }
+      },
+      {
+        "id": "VariableID:34662:116",
+        "collection": "Primitives",
+        "name": "Lime Green/50",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FBFEF6"
+        }
+      },
+      {
+        "id": "VariableID:34662:94",
+        "collection": "Primitives",
+        "name": "Lime Green/500",
+        "type": "COLOR",
+        "values": {
+          "Default": "#C6EC6B"
+        }
+      },
+      {
+        "id": "VariableID:34662:93",
+        "collection": "Primitives",
+        "name": "Lime Green/600",
+        "type": "COLOR",
+        "values": {
+          "Default": "#B5D45E"
+        }
+      },
+      {
+        "id": "VariableID:34662:92",
+        "collection": "Primitives",
+        "name": "Lime Green/700",
+        "type": "COLOR",
+        "values": {
+          "Default": "#99BE4A"
+        }
+      },
+      {
+        "id": "VariableID:34662:90",
+        "collection": "Primitives",
+        "name": "Lime Green/800",
+        "type": "COLOR",
+        "values": {
+          "Default": "#59780C"
+        }
+      },
+      {
+        "id": "VariableID:34662:89",
+        "collection": "Primitives",
+        "name": "Lime Green/900",
+        "type": "COLOR",
+        "values": {
+          "Default": "#3F550A"
+        }
+      },
+      {
+        "id": "VariableID:34662:141",
+        "collection": "Primitives",
+        "name": "Live Casino/900",
+        "type": "COLOR",
+        "values": {
+          "Default": "#1F1F1F"
+        }
+      },
+      {
+        "id": "VariableID:34662:44",
+        "collection": "Primitives",
+        "name": "Magenta/500",
+        "type": "COLOR",
+        "values": {
+          "Default": "#BA26C6"
+        }
+      },
+      {
+        "id": "VariableID:34662:143",
+        "collection": "Primitives",
+        "name": "Magenta/600",
+        "type": "COLOR",
+        "values": {
+          "Default": "#951E9E"
+        }
+      },
+      {
+        "id": "VariableID:34662:52",
+        "collection": "Primitives",
+        "name": "Orange/100",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFF4E5"
+        }
+      },
+      {
+        "id": "VariableID:34662:51",
+        "collection": "Primitives",
+        "name": "Orange/150",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFE9CC"
+        }
+      },
+      {
+        "id": "VariableID:34662:27",
+        "collection": "Primitives",
+        "name": "Orange/200",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFE3BF"
+        }
+      },
+      {
+        "id": "VariableID:34662:26",
+        "collection": "Primitives",
+        "name": "Orange/300",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFD49B"
+        }
+      },
+      {
+        "id": "VariableID:34662:25",
+        "collection": "Primitives",
+        "name": "Orange/350",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFC170"
+        }
+      },
+      {
+        "id": "VariableID:34662:24",
+        "collection": "Primitives",
+        "name": "Orange/400",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFAA3C"
+        }
+      },
+      {
+        "id": "VariableID:34662:110",
+        "collection": "Primitives",
+        "name": "Orange/50",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFF8EF"
+        }
+      },
+      {
+        "id": "VariableID:34662:23",
+        "collection": "Primitives",
+        "name": "Orange/500",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FF8F00"
+        }
+      },
+      {
+        "id": "VariableID:34662:22",
+        "collection": "Primitives",
+        "name": "Orange/600",
+        "type": "COLOR",
+        "values": {
+          "Default": "#C16D00"
+        }
+      },
+      {
+        "id": "VariableID:34662:20",
+        "collection": "Primitives",
+        "name": "Orange/700",
+        "type": "COLOR",
+        "values": {
+          "Default": "#995600"
+        }
+      },
+      {
+        "id": "VariableID:34662:19",
+        "collection": "Primitives",
+        "name": "Orange/800",
+        "type": "COLOR",
+        "values": {
+          "Default": "#663900"
+        }
+      },
+      {
+        "id": "VariableID:34662:18",
+        "collection": "Primitives",
+        "name": "Orange/900",
+        "type": "COLOR",
+        "values": {
+          "Default": "#331D00"
+        }
+      },
+      {
+        "id": "VariableID:34662:49",
+        "collection": "Primitives",
+        "name": "Purple Alpha/10",
+        "type": "COLOR",
+        "values": {
+          "Default": "#7B61FF (10%)"
+        }
+      },
+      {
+        "id": "VariableID:34662:50",
+        "collection": "Primitives",
+        "name": "Purple Alpha/30",
+        "type": "COLOR",
+        "values": {
+          "Default": "#7B61FF (30%)"
+        }
+      },
+      {
+        "id": "VariableID:34662:45",
+        "collection": "Primitives",
+        "name": "Purple/100",
+        "type": "COLOR",
+        "values": {
+          "Default": "#E6E3F3"
+        }
+      },
+      {
+        "id": "VariableID:34662:46",
+        "collection": "Primitives",
+        "name": "Purple/200",
+        "type": "COLOR",
+        "values": {
+          "Default": "#DAD5F5"
+        }
+      },
+      {
+        "id": "VariableID:34662:47",
+        "collection": "Primitives",
+        "name": "Purple/300",
+        "type": "COLOR",
+        "values": {
+          "Default": "#CEC6F6"
+        }
+      },
+      {
+        "id": "VariableID:34662:48",
+        "collection": "Primitives",
+        "name": "Purple/500",
+        "type": "COLOR",
+        "values": {
+          "Default": "#7B61FF"
+        }
+      },
+      {
+        "id": "VariableID:34662:142",
+        "collection": "Primitives",
+        "name": "Purple/600",
+        "type": "COLOR",
+        "values": {
+          "Default": "#644ED7"
+        }
+      },
+      {
+        "id": "VariableID:34662:107",
+        "collection": "Primitives",
+        "name": "Red/100",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FBECEC"
+        }
+      },
+      {
+        "id": "VariableID:34662:54",
+        "collection": "Primitives",
+        "name": "Red/150",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FAE4E4"
+        }
+      },
+      {
+        "id": "VariableID:34662:36",
+        "collection": "Primitives",
+        "name": "Red/200",
+        "type": "COLOR",
+        "values": {
+          "Default": "#F6CFCF"
+        }
+      },
+      {
+        "id": "VariableID:34662:35",
+        "collection": "Primitives",
+        "name": "Red/300",
+        "type": "COLOR",
+        "values": {
+          "Default": "#F1B4B4"
+        }
+      },
+      {
+        "id": "VariableID:34662:34",
+        "collection": "Primitives",
+        "name": "Red/350",
+        "type": "COLOR",
+        "values": {
+          "Default": "#EA9393"
+        }
+      },
+      {
+        "id": "VariableID:34662:33",
+        "collection": "Primitives",
+        "name": "Red/400",
+        "type": "COLOR",
+        "values": {
+          "Default": "#E36B6B"
+        }
+      },
+      {
+        "id": "VariableID:34662:108",
+        "collection": "Primitives",
+        "name": "Red/50",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FDF3F3"
+        }
+      },
+      {
+        "id": "VariableID:34662:32",
+        "collection": "Primitives",
+        "name": "Red/500",
+        "type": "COLOR",
+        "values": {
+          "Default": "#DB3F3F"
+        }
+      },
+      {
+        "id": "VariableID:34662:31",
+        "collection": "Primitives",
+        "name": "Red/600",
+        "type": "COLOR",
+        "values": {
+          "Default": "#BB1B1B"
+        }
+      },
+      {
+        "id": "VariableID:34662:30",
+        "collection": "Primitives",
+        "name": "Red/700",
+        "type": "COLOR",
+        "values": {
+          "Default": "#832626"
+        }
+      },
+      {
+        "id": "VariableID:34662:29",
+        "collection": "Primitives",
+        "name": "Red/800",
+        "type": "COLOR",
+        "values": {
+          "Default": "#581919"
+        }
+      },
+      {
+        "id": "VariableID:34662:28",
+        "collection": "Primitives",
+        "name": "Red/900",
+        "type": "COLOR",
+        "values": {
+          "Default": "#2B0808"
+        }
+      },
+      {
+        "id": "VariableID:34662:140",
+        "collection": "Primitives",
+        "name": "Virtuals/300",
+        "type": "COLOR",
+        "values": {
+          "Default": "#AAD1E6"
+        }
+      },
+      {
+        "id": "VariableID:34662:139",
+        "collection": "Primitives",
+        "name": "Virtuals/400",
+        "type": "COLOR",
+        "values": {
+          "Default": "#86BEDD"
+        }
+      },
+      {
+        "id": "VariableID:34662:138",
+        "collection": "Primitives",
+        "name": "Virtuals/700",
+        "type": "COLOR",
+        "values": {
+          "Default": "#1583BC"
+        }
+      },
+      {
+        "id": "VariableID:34662:137",
+        "collection": "Primitives",
+        "name": "Virtuals/750",
+        "type": "COLOR",
+        "values": {
+          "Default": "#2970B2"
+        }
+      },
+      {
+        "id": "VariableID:34662:136",
+        "collection": "Primitives",
+        "name": "Virtuals/800",
+        "type": "COLOR",
+        "values": {
+          "Default": "#145999"
+        }
+      },
+      {
+        "id": "VariableID:34662:135",
+        "collection": "Primitives",
+        "name": "Virtuals/850",
+        "type": "COLOR",
+        "values": {
+          "Default": "#0E5689"
+        }
+      },
+      {
+        "id": "VariableID:34662:134",
+        "collection": "Primitives",
+        "name": "Virtuals/900",
+        "type": "COLOR",
+        "values": {
+          "Default": "#0B466E"
+        }
+      },
+      {
+        "id": "VariableID:34662:133",
+        "collection": "Primitives",
+        "name": "Virtuals/950",
+        "type": "COLOR",
+        "values": {
+          "Default": "#0D3B66"
+        }
+      },
+      {
+        "id": "VariableID:34662:4",
+        "collection": "Primitives",
+        "name": "White",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFFFFF"
+        }
+      },
+      {
+        "id": "VariableID:34662:144",
+        "collection": "Primitives",
+        "name": "White Alpha/10",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFFFFF (10%)"
+        }
+      },
+      {
+        "id": "VariableID:34662:145",
+        "collection": "Primitives",
+        "name": "White Alpha/20",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFFFFF (20%)"
+        }
+      },
+      {
+        "id": "VariableID:34662:146",
+        "collection": "Primitives",
+        "name": "White Alpha/30",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFFFFF (30%)"
+        }
+      },
+      {
+        "id": "VariableID:34662:147",
+        "collection": "Primitives",
+        "name": "White Alpha/40",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFFFFF (40%)"
+        }
+      },
+      {
+        "id": "VariableID:34662:148",
+        "collection": "Primitives",
+        "name": "White Alpha/50",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFFFFF (50%)"
+        }
+      },
+      {
+        "id": "VariableID:34662:149",
+        "collection": "Primitives",
+        "name": "White Alpha/60",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFFFFF (60%)"
+        }
+      },
+      {
+        "id": "VariableID:34662:150",
+        "collection": "Primitives",
+        "name": "White Alpha/70",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFFFFF (70%)"
+        }
+      },
+      {
+        "id": "VariableID:34662:151",
+        "collection": "Primitives",
+        "name": "White Alpha/80",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFFFFF (80%)"
+        }
+      },
+      {
+        "id": "VariableID:34662:152",
+        "collection": "Primitives",
+        "name": "White Alpha/90",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFFFFF (90%)"
+        }
+      },
+      {
+        "id": "VariableID:34662:127",
+        "collection": "Primitives",
+        "name": "Yellow/100",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFF8DB"
+        }
+      },
+      {
+        "id": "VariableID:34662:126",
+        "collection": "Primitives",
+        "name": "Yellow/150",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFF3BF"
+        }
+      },
+      {
+        "id": "VariableID:34662:125",
+        "collection": "Primitives",
+        "name": "Yellow/200",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFED9B"
+        }
+      },
+      {
+        "id": "VariableID:34662:124",
+        "collection": "Primitives",
+        "name": "Yellow/300",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFE570"
+        }
+      },
+      {
+        "id": "VariableID:34662:123",
+        "collection": "Primitives",
+        "name": "Yellow/400",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFDB3C"
+        }
+      },
+      {
+        "id": "VariableID:34662:128",
+        "collection": "Primitives",
+        "name": "Yellow/50",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFFCEF"
+        }
+      },
+      {
+        "id": "VariableID:34662:122",
+        "collection": "Primitives",
+        "name": "Yellow/500",
+        "type": "COLOR",
+        "values": {
+          "Default": "#FFD200"
+        }
+      },
+      {
+        "id": "VariableID:34662:121",
+        "collection": "Primitives",
+        "name": "Yellow/550",
+        "type": "COLOR",
+        "values": {
+          "Default": "#ECC200"
+        }
+      },
+      {
+        "id": "VariableID:34662:120",
+        "collection": "Primitives",
+        "name": "Yellow/600",
+        "type": "COLOR",
+        "values": {
+          "Default": "#CCA800"
+        }
+      },
+      {
+        "id": "VariableID:34662:119",
+        "collection": "Primitives",
+        "name": "Yellow/700",
+        "type": "COLOR",
+        "values": {
+          "Default": "#997E00"
+        }
+      },
+      {
+        "id": "VariableID:34662:118",
+        "collection": "Primitives",
+        "name": "Yellow/800",
+        "type": "COLOR",
+        "values": {
+          "Default": "#665400"
+        }
+      },
+      {
+        "id": "VariableID:34662:117",
+        "collection": "Primitives",
+        "name": "Yellow/900",
+        "type": "COLOR",
+        "values": {
+          "Default": "#332A00"
+        }
+      },
+      {
+        "id": "VariableID:34679:2442",
+        "collection": "Themes",
+        "name": "Number",
+        "type": "FLOAT",
+        "values": {
+          "Mode 1": "0"
+        }
+      }
+    ],
+    "removed": [],
+    "changed": []
+  },
+  "components": {
+    "added": [],
+    "removed": [],
+    "changed": []
+  },
+  "renames": {
+    "properties": [],
+    "values": []
+  },
+  "status": "in-review",
+  "statusInfo": {
+    "checkedAt": "2026-11-27T13:39:54.489Z",
+    "librarySnapshotAt": "2026-11-27T12:57:59.948Z",
+    "done": 0,
+    "total": 155,
+    "pendingCount": 155,
+    "pending": [
+      {
+        "kind": "variable",
+        "id": "VariableID:34682:8",
+        "name": "Border/Default"
+      },
+      {
+        "kind": "variable",
+        "id": "VariableID:34682:9",
+        "name": "Border/Disabled"
+      },
+      {
+        "kind": "variable",
+        "id": "VariableID:34682:10",
+        "name": "Border/Focus Ring"
+      },
+      {
+        "kind": "variable",
+        "id": "VariableID:34682:12",
+        "name": "Status/Error"
+      },
+      {
+        "kind": "variable",
+        "id": "VariableID:34682:11",
+        "name": "Status/Info"
+      },
+      {
+        "kind": "variable",
+        "id": "VariableID:34682:14",
+        "name": "Status/Success"
+      },
+      {
+        "kind": "variable",
+        "id": "VariableID:34682:13",
+        "name": "Status/Warning"
+      },
+      {
+        "kind": "variable",
+        "id": "VariableID:34682:4",
+        "name": "Text/Default"
+      },
+      {
+        "kind": "variable",
+        "id": "VariableID:34682:7",
+        "name": "Text/Disabled"
+      },
+      {
+        "kind": "variable",
+        "id": "VariableID:34682:3",
+        "name": "Text/Label"
+      },
+      {
+        "kind": "variable",
+        "id": "VariableID:34682:6",
+        "name": "Text/Placeholder"
+      },
+      {
+        "kind": "variable",
+        "id": "VariableID:34682:5",
+        "name": "Text/Secondary"
+      },
+      {
+        "kind": "variable",
+        "id": "VariableID:34662:3",
+        "name": "Black"
+      },
+      {
+        "kind": "variable",
+        "id": "VariableID:34662:58",
+        "name": "Blue/100"
+      },
+      {
+        "kind": "variable",
+        "id": "VariableID:34662:57",
+        "name": "Blue/150"
+      }
+    ],
+    "mergedAt": null
+  }
+}

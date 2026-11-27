@@ -1,5 +1,30 @@
 [
   {
+    "id": "e6w1hAI5Y0ImFmJFk2bfw9",
+    "version": "v2026.11.27.21",
+    "status": "in-review",
+    "title": "CXI-2135-Color-Variables",
+    "createdAt": "2026-11-27T13:39:54.483Z",
+    "updatedAt": "2026-11-27T13:39:54.483Z",
+    "ticket": {
+      "key": "CXI-2135",
+      "url": "https://interwetten.atlassian.net/browse/CXI-2135",
+      "summary": "DS-Color-Variables",
+      "type": "UX Task"
+    },
+    "branchUrl": "https://www.figma.com/design/e9id05pwA4x9x8DtJgwWXR/branch/e6w1hAI5Y0ImFmJFk2bfw9/IW-Design-Library",
+    "confluenceUrl": "https://interwetten.atlassian.net/wiki/spaces/CXI/pages/3255566348/v2026.11.27.21",
+    "summary": {
+      "namingOnly": false,
+      "affected": 0,
+      "renamed": 0,
+      "propertyChanges": 0,
+      "visualChanges": 0,
+      "styles": 0,
+      "variables": 155
+    }
+  },
+  {
     "id": "ClQq98zzcppNxU7HqucjBC",
     "version": "v2026.11.27.15",
     "status": "merged",
