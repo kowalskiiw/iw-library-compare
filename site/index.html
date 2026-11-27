@@ -16,21 +16,38 @@
 
 <main class="container">
   <h1>Library comparisons</h1>
-  <p class="sub">What changed between the IW Design Library and a Figma branch — one entry per branch, each with a detail page that mirrors its Confluence page.</p>
-  <input id="search" class="search" type="search" placeholder="Search title, ticket or branch…" aria-label="Search comparisons">
+  <p class="sub">What changed between the IW Design Library and a Figma branch — one entry per branch. Click an entry to see what changed.</p>
+  <input id="search" class="search" type="search" placeholder="Search number, ticket or branch name…" aria-label="Search comparisons">
   <div id="list"></div>
   <p id="empty" class="empty" hidden>No comparisons yet.</p>
 </main>
 
+<!-- Detail view of one entry, opened from the list -->
+<div class="modal-backdrop" id="modal" hidden>
+  <div class="modal" id="dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
+    <div class="modal-head">
+      <h1 id="modal-title"></h1>
+      <div class="modal-links" id="modal-links"></div>
+      <button class="modal-close" id="modal-close" type="button" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
 <script type="module">
-  import { libraryUrl, displayTitle } from './assets/describe.js';
-  const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  const list = document.getElementById('list');
-  const empty = document.getElementById('empty');
+  import { libraryUrl, entryHeadline } from './assets/describe.js';
+  import { esc, renderDetailBody, headerLinks } from './assets/detail-view.js';
+
+  const $ = (id) => document.getElementById(id);
+  const list = $('list');
+  const empty = $('empty');
+  const modal = $('modal');
+  const dialog = $('dialog');
   let entries = [];
 
   const chip = (text, cls = '') => `<span class="chip ${cls}">${esc(text)}</span>`;
 
+  // ── list ──
   function card(e) {
     const s = e.summary;
     const chips = [
@@ -50,22 +67,109 @@
       e.branchUrl ? `<a href="${esc(e.branchUrl)}" target="_blank" rel="noopener">Figma branch</a>` : '',
       e.confluenceUrl ? `<a href="${esc(e.confluenceUrl)}" target="_blank" rel="noopener">Confluence</a>` : '',
     ].filter(Boolean).join('<span>·</span>');
+    // The href is a real page (works for middle-click / new tab); a normal click opens the modal instead.
     return `<div class="entry-card">
-      <div class="entry-title"><a class="stretched" href="detail.html?id=${encodeURIComponent(e.id)}">${e.version ? `<span class="ver">${esc(e.version)}</span>${displayTitle(e) ? ` – <span class="rest">${esc(displayTitle(e))}</span>` : ''}` : esc(displayTitle(e) || e.title)}</a></div>
+      <div class="entry-title"><a class="stretched" data-id="${esc(e.id)}" href="detail.html?id=${encodeURIComponent(e.id)}">${esc(entryHeadline(e))}</a></div>
       <div class="meta">${meta}</div>
       <div class="chips">${chips}</div>
     </div>`;
   }
 
   function render() {
-    const q = document.getElementById('search').value.trim().toLowerCase();
+    const q = $('search').value.trim().toLowerCase();
     const shown = entries.filter((e) =>
       !q || [e.version, e.title, e.ticket && e.ticket.key, e.ticket && e.ticket.summary, e.id].filter(Boolean).join(' ').toLowerCase().includes(q));
     list.innerHTML = shown.map(card).join('');
     empty.hidden = shown.length > 0;
     empty.textContent = entries.length ? 'No comparison matches your search.' : 'No comparisons yet.';
-    document.getElementById('count').textContent = `${entries.length} comparison${entries.length === 1 ? '' : 's'}`;
+    $('count').textContent = `${entries.length} comparison${entries.length === 1 ? '' : 's'}`;
   }
+
+  // ── modal ──
+  // The open entry lives in the URL (#<id>): the back button closes the modal and a link
+  // like https://…/#<id> opens it directly.
+  const cache = new Map();
+  let currentId = null;
+  let lastFocus = null;
+  let pushedByUs = false; // true if opening the modal added a history entry
+
+  async function openModal(id) {
+    currentId = id;
+    const item = entries.find((e) => e.id === id);
+    $('modal-title').textContent = item ? entryHeadline(item) : '';
+    $('modal-links').innerHTML = '';
+    $('modal-body').innerHTML = '<p class="empty">Loading…</p>';
+    modal.hidden = false;
+    document.body.classList.add('modal-open');
+    dialog.focus();
+    try {
+      let e = cache.get(id);
+      if (!e) {
+        const res = await fetch(`data/entries/${encodeURIComponent(id)}.json`, { cache: 'no-cache' });
+        if (!res.ok) throw new Error(`Comparison not found (HTTP ${res.status}).`);
+        e = await res.json();
+        cache.set(id, e);
+      }
+      if (currentId !== id) return; // closed or switched while loading
+      $('modal-title').textContent = entryHeadline(e);
+      $('modal-links').innerHTML = headerLinks(e) + `<a href="detail.html?id=${encodeURIComponent(id)}">Open as page</a>`;
+      $('modal-body').innerHTML = renderDetailBody(e);
+      $('modal-body').scrollTop = 0;
+    } catch (err) {
+      if (currentId === id) $('modal-body').innerHTML = `<p class="empty">${esc(err.message)}</p>`;
+    }
+  }
+
+  function hideModal() {
+    currentId = null;
+    pushedByUs = false;
+    modal.hidden = true;
+    document.body.classList.remove('modal-open');
+    $('modal-body').innerHTML = '';
+    if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
+    lastFocus = null;
+  }
+
+  function requestClose() {
+    if (pushedByUs) {
+      history.back(); // removes the #id entry → hashchange → hideModal()
+    } else {
+      history.replaceState(null, '', location.pathname + location.search);
+      hideModal();
+    }
+  }
+
+  function syncFromHash() {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (id && entries.some((e) => e.id === id)) {
+      if (id !== currentId) openModal(id);
+    } else if (currentId) {
+      hideModal();
+    }
+  }
+
+  list.addEventListener('click', (ev) => {
+    const a = ev.target.closest('a.stretched');
+    if (!a) return;
+    if (ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return; // new tab etc.
+    ev.preventDefault();
+    lastFocus = a;
+    pushedByUs = true;
+    location.hash = '#' + a.dataset.id;
+  });
+  $('modal-close').addEventListener('click', requestClose);
+  modal.addEventListener('mousedown', (ev) => { if (ev.target === modal) requestClose(); }); // click on the backdrop
+  document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape' && !modal.hidden) requestClose(); });
+  dialog.addEventListener('keydown', (ev) => { // keep Tab inside the dialog
+    if (ev.key !== 'Tab') return;
+    const f = [...dialog.querySelectorAll('a[href], button')].filter((el) => !el.disabled);
+    if (!f.length) { ev.preventDefault(); return; }
+    const first = f[0];
+    const last = f[f.length - 1];
+    if (ev.shiftKey && (document.activeElement === first || document.activeElement === dialog)) { ev.preventDefault(); last.focus(); }
+    else if (!ev.shiftKey && document.activeElement === last) { ev.preventDefault(); first.focus(); }
+  });
+  window.addEventListener('hashchange', syncFromHash);
 
   try {
     const res = await fetch('data/entries.json', { cache: 'no-cache' });
@@ -74,8 +178,9 @@
   } catch (err) {
     console.warn('Could not load data/entries.json:', err.message);
   }
-  document.getElementById('search').addEventListener('input', render);
+  $('search').addEventListener('input', render);
   render();
+  syncFromHash(); // a link with #<id> opens that entry right away
 </script>
 </body>
 </html>
