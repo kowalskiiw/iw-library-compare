@@ -125,24 +125,37 @@ export function describeComponent(c) {
     lines.push([T(`${prop}: value removed `), ...join(list.map((v) => [C(v.value)]))]);
   }
   c.defaultsChanged.forEach((d) => lines.push([T('Default of '), C(d.property), T(': '), C(d.from), T(ARROW), C(d.to)]));
-  if (c.variantsAdded) lines.push([T(`${c.variantsAdded} variant(s) added`)]);
-  if (c.variantsRemoved) lines.push([T(`${c.variantsRemoved} variant(s) removed`)]);
+  const variants = (n) => `${n} variant${n === 1 ? '' : 's'}`;
+  if (c.variantsAdded) lines.push([T(`${variants(c.variantsAdded)} added`)]);
+  if (c.variantsRemoved) lines.push([T(`${variants(c.variantsRemoved)} removed`)]);
   if (c.description) lines.push([T('Description changed')]);
   if (c.moved) lines.push([T('Moved from page '), C(c.moved.from), T(' to '), C(c.moved.to)]);
   if (c.visual) {
-    lines.push([
-      T(c.visual.total > 1
-        ? `Appearance changed in ${c.visual.changed} of ${c.visual.total} variant(s)`
-        : 'Appearance changed'),
-    ]);
+    // A 'meter' token carries its plain text in `v`: the site draws a bar + "15 / 48",
+    // the Confluence page just prints the text.
+    lines.push(c.visual.total > 1
+      ? [{ t: 'meter', changed: c.visual.changed, total: c.visual.total,
+           v: `Appearance changed in ${c.visual.changed} of ${c.visual.total} variants` }]
+      : [T('Appearance changed')]);
   }
   if (!lines.length) lines.push([T(c.oldName ? 'Name only' : '—')]);
   return { was: c.oldName, lines };
 }
 
+// What kind of change a style / variable row is. Shown as a colored badge (site) or a
+// status lozenge (Confluence) in its own column, so the text itself needs no prefix.
+//   tone: 'add' (green) · 'change' (orange) · 'remove' (red)
+export function changeBadge(item, kind) {
+  if (kind === 'added') return { tone: 'add', label: 'Added' };
+  if (kind === 'removed') return { tone: 'remove', label: 'Removed' };
+  const valueChanged = Boolean(item.value) || Boolean(item.values && item.values.length);
+  const onlyRenamed = Boolean(item.oldName) && !valueChanged && !item.description && !item.oldCollection;
+  return { tone: 'change', label: onlyRenamed ? 'Renamed' : 'Changed' };
+}
+
 export function describeStyle(s, kind) {
-  if (kind === 'added') return [[T('Added: '), C(s.value)]];
-  if (kind === 'removed') return [[T('Removed (was '), C(s.value), T(')')]];
+  if (kind === 'added') return [[C(s.value)]];
+  if (kind === 'removed') return [[T('was '), C(s.value)]];
   const lines = [];
   if (s.oldName) lines.push([T('Renamed from '), C(s.oldName)]);
   if (s.value) lines.push([T('Value '), C(s.value.from), T(ARROW), C(s.value.to)]);
@@ -153,10 +166,10 @@ export function describeStyle(s, kind) {
 export function describeVariable(v, kind) {
   const entries = (obj) => Object.entries(obj || {});
   if (kind === 'added') {
-    return [[T('Added: '), ...join(entries(v.values).map(([m, val]) => (entries(v.values).length > 1 ? [T(`${m} `), C(val)] : [C(val)])))]];
+    return [join(entries(v.values).map(([m, val]) => (entries(v.values).length > 1 ? [T(`${m} `), C(val)] : [C(val)])))];
   }
   if (kind === 'removed') {
-    return [[T('Removed (was '), ...join(entries(v.values).map(([, val]) => [C(val)])), T(')')]];
+    return [[T('was '), ...join(entries(v.values).map(([, val]) => [C(val)]))]];
   }
   const lines = [];
   if (v.oldName) lines.push([T('Renamed from '), C(v.oldName)]);
