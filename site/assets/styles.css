@@ -117,9 +117,6 @@ code, .pill {
 }
 .modal-head { flex: none; display: flex; align-items: center; gap: 16px; padding: 16px 20px 16px 28px; border-bottom: 1px solid var(--border); }
 .modal-head h1 { flex: 1; min-width: 0; font-size: 22px; letter-spacing: -.02em; }
-.modal-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px 18px; font-size: 13px; }
-.modal-links a { color: var(--text-2); text-decoration: none; }
-.modal-links a:hover { color: var(--text); text-decoration: underline; }
 .modal-close {
   flex: none; width: 32px; height: 32px; border: 0; border-radius: 8px; background: transparent;
   font: inherit; font-size: 24px; line-height: 1; color: var(--text-2); cursor: pointer;
@@ -133,8 +130,7 @@ body.modal-open { overflow: hidden; }
   .modal-backdrop { padding: 0; }
   .modal { height: 100%; border-radius: 0; }
   .modal-head { flex-wrap: wrap; padding: 14px 14px 14px 16px; }
-  .modal-links { font-size: 12px; white-space: nowrap; }
-  .modal-body { padding: 0 16px 28px; }
+    .modal-body { padding: 0 16px 28px; }
 }
 
 /* ── collapsible component groups ── */
