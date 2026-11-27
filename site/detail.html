@@ -21,7 +21,7 @@
 
 <script type="module">
   import {
-    libLink, addedLink, removedLink, libraryUrl, entryHeadline, describeComponent, describeStyle, describeVariable,
+    libLink, addedLink, removedLink, libraryUrl, entryHeadline, displayTitle, describeComponent, describeStyle, describeVariable,
     groupByPage, headlineText, guidance, limitList, SCOPE_TEXT, linkNote, statusLines, statusLabel, isMerged,
   } from './assets/describe.js';
 
@@ -45,7 +45,7 @@
     const url = e.branch.url;
     const h = [];
 
-    h.push(`<a class="back" href="./">← All comparisons</a><h1>${e.version ? `<span class="ver">${esc(e.version)}</span> – <span class="rest">${esc(e.title)}</span>` : esc(e.title)}</h1>`);
+    h.push(`<a class="back" href="./">← All comparisons</a><h1>${e.version ? `<span class="ver">${esc(e.version)}</span>${displayTitle(e) ? ` – <span class="rest">${esc(displayTitle(e))}</span>` : ''}` : esc(displayTitle(e) || e.title)}</h1>`);
 
     const meta = [
       `Compared on ${date(e.updatedAt)}`,

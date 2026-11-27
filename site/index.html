@@ -23,7 +23,7 @@
 </main>
 
 <script type="module">
-  import { libraryUrl } from './assets/describe.js';
+  import { libraryUrl, displayTitle } from './assets/describe.js';
   const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   const list = document.getElementById('list');
   const empty = document.getElementById('empty');
@@ -51,7 +51,7 @@
       e.confluenceUrl ? `<a href="${esc(e.confluenceUrl)}" target="_blank" rel="noopener">Confluence</a>` : '',
     ].filter(Boolean).join('<span>·</span>');
     return `<div class="entry-card">
-      <div class="entry-title"><a class="stretched" href="detail.html?id=${encodeURIComponent(e.id)}">${e.version ? `<span class="ver">${esc(e.version)}</span> – <span class="rest">${esc(e.title)}</span>` : esc(e.title)}</a></div>
+      <div class="entry-title"><a class="stretched" href="detail.html?id=${encodeURIComponent(e.id)}">${e.version ? `<span class="ver">${esc(e.version)}</span>${displayTitle(e) ? ` – <span class="rest">${esc(displayTitle(e))}</span>` : ''}` : esc(displayTitle(e) || e.title)}</a></div>
       <div class="meta">${meta}</div>
       <div class="chips">${chips}</div>
     </div>`;
