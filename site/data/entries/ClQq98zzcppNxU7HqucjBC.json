@@ -249,40 +249,14 @@
       }
     ]
   },
-  "status": "in-review",
+  "status": "merged",
   "statusInfo": {
-    "checkedAt": "2026-11-27T09:48:41.812Z",
-    "librarySnapshotAt": "2026-11-27T08:55:11.239Z",
-    "done": 0,
+    "checkedAt": "2026-11-27T09:55:15.685Z",
+    "librarySnapshotAt": "2026-11-27T09:55:00.801Z",
+    "done": 5,
     "total": 5,
-    "pendingCount": 5,
-    "pending": [
-      {
-        "kind": "component",
-        "id": "11002:1480",
-        "name": "Tab Items/Tab Item - Default"
-      },
-      {
-        "kind": "component",
-        "id": "27207:3081",
-        "name": "Tab Items/Tab Item - Icon"
-      },
-      {
-        "kind": "component",
-        "id": "26749:16691",
-        "name": "Tab Items/Tab Item - Text + Icon"
-      },
-      {
-        "kind": "component",
-        "id": "25157:4539",
-        "name": "Tab Items/Tab Item - Text + Icon Big"
-      },
-      {
-        "kind": "component",
-        "id": "26938:6526",
-        "name": "Tab Items/Tab Item - Text + Notification"
-      }
-    ],
-    "mergedAt": null
+    "pendingCount": 0,
+    "pending": [],
+    "mergedAt": "2026-11-27T09:55:15.685Z"
   }
 }
