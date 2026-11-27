@@ -31,6 +31,10 @@ const badge = (b) => `<span class="badge badge-${b.tone}">${esc(b.label)}</span>
 
 const tokens = (ts) => ts.map((t) => {
   if (t.t === 'code') return swatches(t.v) + code(t.v);
+  if (t.t === 'count') {
+    const tip = t.names && t.names.length ? t.names.join('\n') + (t.more ? `\n+${t.more} more` : '') : '';
+    return tip ? `<span class="vcount" title="${esc(tip)}">${esc(t.v)}</span>` : esc(t.v);
+  }
   if (t.t === 'meter') {
     const pct = Math.max(3, Math.round((t.changed / t.total) * 100));
     return `<span class="meter-row" role="img" aria-label="${esc(t.v)}" title="${esc(t.v)}">` +

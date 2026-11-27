@@ -109,6 +109,49 @@ function groupBy(list, keyFn) {
   return m;
 }
 
+const PROP_LABEL = {
+  name: 'Layer name', fill: 'Fill', stroke: 'Stroke', radius: 'Corner radius', effect: 'Effect', layout: 'Layout',
+  spacing: 'Spacing', padding: 'Padding', size: 'Size', text: 'Text style', content: 'Text',
+  opacity: 'Opacity', visibility: 'Visibility', instance: 'Instance of',
+};
+const propLabel = (p) => PROP_LABEL[p] || (p.startsWith('binding:') ? `Binding (${p.slice(8)})` : p);
+const SHOW_APPEARANCE_LINES = 8;
+
+// "· 6 of 10 variants" — with the variant names right there when there are only a few, otherwise as a
+// tooltip on the site. A 'count' token carries its plain text in `v`, so Confluence just prints it.
+function countTok(a) {
+  if (!a.total || a.total <= 1) return [];
+  const names = a.names || [];
+  const inline = a.variants <= 3 && names.length === a.variants ? ` (${names.join(', ')})` : '';
+  return [{
+    t: 'count',
+    v: ` · ${a.variants} of ${a.total} variants${inline}`,
+    names: a.variants > 3 ? names : [],
+    more: a.variants > 3 ? Math.max(0, a.variants - names.length) : 0,
+  }];
+}
+
+// What changed inside the variants that changed appearance (needs schema-2 snapshots on both sides).
+function appearanceLines(c) {
+  const list = c.appearance || [];
+  const out = [];
+  list.slice(0, SHOW_APPEARANCE_LINES).forEach((a) => {
+    if (a.prop === 'layer-added') out.push([T('Layer added: '), C(a.layer), T(` (${a.to})`), ...countTok(a)]);
+    else if (a.prop === 'layer-removed') out.push([T('Layer removed: '), C(a.layer), T(` (${a.from})`), ...countTok(a)]);
+    else out.push([T(`${a.layer === '(variant)' ? 'Variant' : a.layer} · ${propLabel(a.prop)}: `), C(a.from), T(ARROW), C(a.to), ...countTok(a)]);
+  });
+  const hidden = Math.max(0, list.length - SHOW_APPEARANCE_LINES) + (c.appearanceMore || 0);
+  if (hidden) out.push([T(`+${hidden} more appearance change${hidden === 1 ? '' : 's'}`)]);
+  if (c.appearanceUnexplained) {
+    // The fingerprint says "changed" but the layer details can't explain it (a property we don't read,
+    // or layers we could not match up). Say so instead of leaving the reader guessing.
+    const n = c.appearanceUnexplained;
+    const v = `${n} variant${n === 1 ? '' : 's'}`;
+    out.push([T(list.length ? `Other appearance changes not captured in detail: ${v}` : `Details not captured for this change (${v})`)]);
+  }
+  return out;
+}
+
 // → { was: oldName|null, lines: Token[][] }
 export function describeComponent(c) {
   const lines = [];
@@ -137,6 +180,7 @@ export function describeComponent(c) {
       ? [{ t: 'meter', changed: c.visual.changed, total: c.visual.total,
            v: `Appearance changed in ${c.visual.changed} of ${c.visual.total} variants` }]
       : [T('Appearance changed')]);
+    lines.push(...appearanceLines(c));
   }
   if (!lines.length) lines.push([T(c.oldName ? 'Name only' : '—')]);
   return { was: c.oldName, lines };
