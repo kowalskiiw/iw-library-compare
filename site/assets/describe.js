@@ -43,8 +43,19 @@ export function libraryUrl(branchUrl) {
 export const libLink = (entry, nodeId) => nodeLink(libraryUrl(entry.branch.url), nodeId);
 export const branchLink = (entry, nodeId) => nodeLink(entry.branch.url, nodeId);
 
+// The title as shown to readers: a leading Jira key ("CXI-2133-Priority-Fix-4" → "Priority-Fix-4")
+// is dropped, because the ticket is shown as its own link. Only the display changes; the stored
+// title stays as it was.
+export function displayTitle(e) {
+  return String(e.title || '').replace(/^[A-Z][A-Z0-9]+-\d+[\s_:–—-]*/, '').trim();
+}
+
 // Same headline on the changelog site and on the Confluence page.
-export const entryHeadline = (e) => (e.version ? `${e.version} – ${e.title}` : e.title);
+export function entryHeadline(e) {
+  const t = displayTitle(e);
+  if (e.version) return t ? `${e.version} – ${t}` : e.version;
+  return t || String(e.title || '');
+}
 
 // ── merge status ─────────────────────────────────────────────────────────────
 // 'in-review': the branch is not (completely) in the library yet.
