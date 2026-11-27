@@ -1,5 +1,30 @@
 [
   {
+    "id": "ClQq98zzcppNxU7HqucjBC",
+    "version": "v2026.11.27.15",
+    "status": "in-review",
+    "title": "CXI-2133-Priority-Fix-4",
+    "createdAt": "2026-11-27T09:48:41.804Z",
+    "updatedAt": "2026-11-27T09:48:41.804Z",
+    "ticket": {
+      "key": "CXI-2133",
+      "url": "https://interwetten.atlassian.net/browse/CXI-2133",
+      "summary": "DS-Fix-Priority-4",
+      "type": "UX Task"
+    },
+    "branchUrl": "https://www.figma.com/design/e9id05pwA4x9x8DtJgwWXR/branch/ClQq98zzcppNxU7HqucjBC/IW-Design-Library",
+    "confluenceUrl": "https://interwetten.atlassian.net/wiki/spaces/CXI/pages/3255402511/v2026.11.27.15+CXI-2133-Priority-Fix-4",
+    "summary": {
+      "namingOnly": true,
+      "affected": 5,
+      "renamed": 0,
+      "propertyChanges": 5,
+      "visualChanges": 0,
+      "styles": 0,
+      "variables": 0
+    }
+  },
+  {
     "id": "2RZLnNll3bqysVmOh2CfEV",
     "version": "v2026.11.25.8",
     "status": "merged",
