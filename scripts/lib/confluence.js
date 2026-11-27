@@ -2,7 +2,7 @@
 // Wording comes from site/assets/describe.js, shared with the detail page.
 
 import {
-  libLink, addedLink, removedLink, libraryUrl, describeComponent, describeStyle, describeVariable,
+  libLink, addedLink, removedLink, libraryUrl, describeComponent, describeStyle, describeVariable, changeBadge,
   groupByPage, headlineText, guidance, limitList, SCOPE_TEXT, linkNote, statusLines, isMerged,
 } from '../../site/assets/describe.js';
 
@@ -22,6 +22,13 @@ const macro = (name, inner = '', params = {}) =>
   `<ac:structured-macro ac:name="${name}" ac:schema-version="1">` +
   Object.entries(params).map(([k, v]) => `<ac:parameter ac:name="${k}">${esc(v)}</ac:parameter>`).join('') +
   (inner ? `<ac:rich-text-body>${inner}</ac:rich-text-body>` : '') +
+  '</ac:structured-macro>';
+
+// Colored status label for the "Change" column: ADDED green · CHANGED/RENAMED yellow · REMOVED red.
+const lozenge = (b) =>
+  `<ac:structured-macro ac:name="status" ac:schema-version="1">` +
+  `<ac:parameter ac:name="colour">${{ add: 'Green', change: 'Yellow', remove: 'Red' }[b.tone]}</ac:parameter>` +
+  `<ac:parameter ac:name="title">${esc(b.label.toUpperCase())}</ac:parameter>` +
   '</ac:structured-macro>';
 
 const statusMacro = (entry) =>
@@ -78,24 +85,26 @@ export function buildStorage(entry, { siteUrl } = {}) {
   const st = entry.styles;
   if (st.added.length || st.removed.length || st.changed.length) {
     out.push(h(2, 'Styles'));
+    const styleRow = (s, kind) => [lozenge(changeBadge(s, kind)), esc(s.type), esc(s.name), lines(describeStyle(s, kind))];
     const rows = [
-      ...st.changed.map((s) => [esc(s.type), esc(s.name), lines(describeStyle(s, 'changed'))]),
-      ...st.added.map((s) => [esc(s.type), esc(s.name), lines(describeStyle(s, 'added'))]),
-      ...st.removed.map((s) => [esc(s.type), esc(s.name), lines(describeStyle(s, 'removed'))]),
+      ...st.changed.map((s) => styleRow(s, 'changed')),
+      ...st.added.map((s) => styleRow(s, 'added')),
+      ...st.removed.map((s) => styleRow(s, 'removed')),
     ];
-    out.push(table(['Type', 'Style', 'Change'], rows));
+    out.push(table(['Change', 'Type', 'Style', 'Details'], rows));
   }
 
   // Variables
   const va = entry.variables;
   if (va.added.length || va.removed.length || va.changed.length) {
     out.push(h(2, 'Variables'));
+    const varRow = (v, kind) => [lozenge(changeBadge(v, kind)), esc(v.collection), esc(v.name), lines(describeVariable(v, kind))];
     const rows = [
-      ...va.changed.map((v) => [esc(v.collection), esc(v.name), lines(describeVariable(v, 'changed'))]),
-      ...va.added.map((v) => [esc(v.collection), esc(v.name), lines(describeVariable(v, 'added'))]),
-      ...va.removed.map((v) => [esc(v.collection), esc(v.name), lines(describeVariable(v, 'removed'))]),
+      ...va.changed.map((v) => varRow(v, 'changed')),
+      ...va.added.map((v) => varRow(v, 'added')),
+      ...va.removed.map((v) => varRow(v, 'removed')),
     ];
-    out.push(table(['Collection', 'Variable', 'Change'], rows));
+    out.push(table(['Change', 'Collection', 'Variable', 'Details'], rows));
   }
 
   // Pages
